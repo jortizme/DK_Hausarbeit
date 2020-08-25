@@ -1,0 +1,23 @@
+{
+   ExpandedHierarchyInLayout: "",
+   guistr: "# # String gsaved with Nlview 6.6.11  2017-06-12 bk=1.3860 VDI=40 GEI=35 GUI=JA:1.6
+#  -string -flagsOSRD
+preplace port SDI_TXD_0 -pg 1 -y 60 -defaultsOSRD
+preplace port clk_in1_0 -pg 1 -y -40 -defaultsOSRD
+preplace port RXD_0 -pg 1 -y 40 -defaultsOSRD
+preplace port TXD_0 -pg 1 -y 40 -defaultsOSRD
+preplace port SDI_RXD_0 -pg 1 -y 60 -defaultsOSRD
+preplace portBus GPIO_0 -pg 1 -y 20 -defaultsOSRD
+preplace inst Beispielrechner_System_0 -pg 1 -lvl 2 -y 40 -defaultsOSRD
+preplace inst clk_wiz_0 -pg 1 -lvl 1 -y -40 -defaultsOSRD
+preplace netloc SDI_RXD_0_1 1 0 2 NJ 60 NJ
+preplace netloc clk_in1_0_1 1 0 1 N
+preplace netloc Beispielrechner_System_0_TXD 1 2 1 N
+preplace netloc clk_wiz_0_clk_out1 1 1 1 190
+preplace netloc Beispielrechner_System_0_SDI_TXD 1 2 1 N
+preplace netloc Net 1 2 1 N
+preplace netloc RXD_0_1 1 0 2 NJ 40 NJ
+levelinfo -pg 1 -20 100 340 500 -top -90 -bot 220
+",
+}
+0
