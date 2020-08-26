@@ -1,6 +1,6 @@
 /*
 -------------------------------------------------------------------------------
--- DMA-Kontroller
+-- dma.h
 -------------------------------------------------------------------------------
 -- Modul Digitale Komponenten
 -- Hochschule Osnabrueck
@@ -15,9 +15,17 @@
 -- 0x14 Destination Address Kanal_2 Register    (DESTR1)    (Write Only)
 -- 0x18 Transfer Antahl Kana_2 Register         (TRAAR1)    (RW)
 -- 0x1C Control Register Kanal_2                (CR1)       (RW)
--- 0x20 Status Register                         (SR)        (Read Only)
+-- 0x20 Source Address Kanal_3 Register         (SAR2)      (Write Only)
+-- 0x24 Destination Address Kanal_3 Register    (DESTR2)    (Write Only)
+-- 0x28 Transfer Antahl Kana_3 Register         (TRAAR2)    (RW)
+-- 0x2C Control Register Kanal_3                (CR2)       (RW)
+-- 0x30 Source Address Kanal_4 Register         (SAR3)      (Write Only)
+-- 0x34 Destination Address Kanal_4 Register    (DESTR3)    (Write Only)
+-- 0x38 Transfer Antahl Kana_4 Register         (TRAAR3)    (RW)
+-- 0x3C Control Register Kanal_4                (CR3)       (RW)
+-- 0x40 Status Register                         (SR)        (Read Only)
 ---------------------------------------------------------------------------------------------------
--- Control Register (CR0 - CR1):
+-- Control Register (CR0 - CR3):
 --  1 .. 0 : Betriebsmodus
 --  2      : Byte_Transfer
 --  3      : Freigabe Interrupt
@@ -29,8 +37,12 @@
 -- Status Register (SR):
 --  0      : Kanal_1 aktiv
 --  1      : Kanal_2 aktiv
+--  2      : Kanal_3 aktiv
+--  3      : Kanal_4 aktiv
 --  16     : Interrupt Kanal_1  
 --  17     : Interrupt Kanal_2
+--  18     : Interrupt Kanal_3
+--  19     : Interrupt Kanal_4
 ---------------------------------------------------------------------------------------------------
 */
 
@@ -62,7 +74,6 @@
 #define CHANNEL_3      8
 #define CHANNEL_EN      (1<<8)
 #define CHANNEL_IR_ACK  (1<<9)
-
 
 #define DMA_CHA0_IRQ  (1<<16)   
 #define DMA_CHA1_IRQ  (1<<17)

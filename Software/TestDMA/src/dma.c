@@ -1,14 +1,17 @@
+
+/*
+-------------------------------------------------------------------------------
+-- dma.c
+-------------------------------------------------------------------------------
+-- Modul Digitale Komponenten
+-- Hochschule Osnabrueck
+-- Joaquin Ortiz, Filip Mijac
+-------------------------------------------------------------------------------
+*/
+
 #include <dma.h>
 #include <config.h>
 #include <cpu.h>
-
-//  --------------------------------------
-//  DMA-System initialization
-//  Joaquin Ortiz
-//  Filip Mijac
-//  HS-Onsnabrueck
-//  ---------------------------------------
-
 
 
 void DMA_init(uint32_t channelNumber, uint32_t sourceAddress, uint32_t destinationAddress, uint32_t transferNumber, 
