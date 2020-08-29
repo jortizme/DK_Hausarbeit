@@ -94,5 +94,6 @@ typedef enum{
 void DMA_init(uint32_t channelNumber, uint32_t sourceAddress, uint32_t destinationAddress, uint32_t transferNumber, 
                 betriebsmodus_t betrieb, bool_t byteTransfer, bool_t IRFreigabe, bool_t exEreignisEn);
 
-void ChannelEnable(uint32_t channelNumber);
+void ChannelEnable(uint32_t channelNumber, uint32_t ControlRegisterValue);
+void InterruptAck(uint32_t channelNumber, uint32_t ControlRegisterValue);
                 

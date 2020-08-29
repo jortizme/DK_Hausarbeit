@@ -26,10 +26,10 @@
 
 #define SATZ_LENGHT 64
 #define TEXT_LENGHT 1024
-uint32_t configKanal_0;
-uint32_t configKanal_1;
-uint32_t configKanal_2;
-char* auxText;
+volatile uint32_t configKanal_0;
+volatile uint32_t configKanal_1;
+volatile uint32_t configKanal_2;
+volatile char*volatile auxText;
 
 void DMA_Handler()
 {
@@ -42,12 +42,12 @@ void DMA_Handler()
 		//Zieladresse von Kanal 1 festlegen
 		out32(DMA_BASE+ DMA_DESTR1, (uint32_t)(auxText + offset_K1));
 		//Kanal 1 aktivieren
-		out32(DMA_BASE + DMA_CR1, configKanal_1 | CHANNEL_EN);
+		ChannelEnable(CHANNEL_1,configKanal_1);
 
-		//Interrupt Kanal 0 best�tigen
-		out32(DMA_BASE + DMA_CR0, configKanal_0 | CHANNEL_IR_ACK);
+		//Interrupt Kanal 0 bestaetigen
+		InterruptAck(CHANNEL_0, configKanal_0);
 		//Kanal 0 aktivieren
-		out32(DMA_BASE + DMA_CR0, configKanal_0 | CHANNEL_EN);
+		ChannelEnable(CHANNEL_0, configKanal_0);
 
 		if((offset_K1 + SATZ_LENGHT) >= TEXT_LENGHT)
 			offset_K1 = 0;
@@ -58,12 +58,12 @@ void DMA_Handler()
 	if(status & DMA_CHA1_IRQ)
 	{
 		//Interrupt quittieren
-		out32(DMA_BASE + DMA_CR1, configKanal_1 | CHANNEL_IR_ACK);
+		InterruptAck(CHANNEL_1,configKanal_1);
 
 		//Quelladresse von Kanal 2 festlegen
 		out32(DMA_BASE+ DMA_SAR2, (uint32_t)(auxText + offset_K2));
 		//Kanal 2 starten
-		out32(DMA_BASE + DMA_CR2, configKanal_2 | CHANNEL_EN);
+		ChannelEnable(CHANNEL_2,configKanal_2);
 
 		if((offset_K2 + SATZ_LENGHT) >= TEXT_LENGHT)
 			offset_K2 = 0;
@@ -74,7 +74,7 @@ void DMA_Handler()
 	if(status & DMA_CHA2_IRQ)
 	{
 		//Interrupt quittieren
-		out32(DMA_BASE + DMA_CR2, configKanal_2 | CHANNEL_IR_ACK);
+		InterruptAck(CHANNEL_2, configKanal_2);
 	}
 }
 
@@ -106,11 +106,12 @@ int main(){
     configKanal_2 = in32(DMA_BASE + DMA_CR2);
 
     //Kanal 0 starten
-    out32(DMA_BASE + DMA_CR0, configKanal_0 | CHANNEL_EN);
+    ChannelEnable(CHANNEL_0,configKanal_0);
+    uint32_t i;
 
    while(1)
     {
-	   //Die CPU macht nichts
+	   i++;
     }
 
     return 0;

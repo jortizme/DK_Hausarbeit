@@ -83,17 +83,44 @@ void DMA_init(uint32_t channelNumber, uint32_t sourceAddress, uint32_t destinati
 }
 
 
-void ChannelEnable(uint32_t channelNumber)
+void ChannelEnable(uint32_t channelNumber, uint32_t ControlRegisterValue)
 {
-    if(CHANNEL_1 == channelNumber)
+    if(CHANNEL_0 == channelNumber)
     {
-        out32(DMA_BASE + DMA_CR0, in32(DMA_BASE + DMA_CR0) | CHANNEL_EN);
+        out32(DMA_BASE + DMA_CR0, ControlRegisterValue | CHANNEL_EN);
+    }
+    else if (CHANNEL_1 == channelNumber)
+    {
+        out32(DMA_BASE + DMA_CR1, ControlRegisterValue | CHANNEL_EN);
     }
     else if (CHANNEL_2 == channelNumber) 
     {
-        out32(DMA_BASE + DMA_CR1, in32(DMA_BASE + DMA_CR1) | CHANNEL_EN);    
+        out32(DMA_BASE + DMA_CR2, ControlRegisterValue | CHANNEL_EN);
+    }
+    else if (CHANNEL_3 == channelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, ControlRegisterValue | CHANNEL_EN);
     }
 }
 
+void InterruptAck(uint32_t channelNumber, uint32_t ControlRegisterValue)
+{
+    if(CHANNEL_0 == channelNumber)
+    {
+        out32(DMA_BASE + DMA_CR0, ControlRegisterValue | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_1 == channelNumber)
+    {
+        out32(DMA_BASE + DMA_CR1, ControlRegisterValue | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_2 == channelNumber)
+    {
+        out32(DMA_BASE + DMA_CR2, ControlRegisterValue | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_3 == channelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, ControlRegisterValue | CHANNEL_IR_ACK);
+    }
+}
 
 
