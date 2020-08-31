@@ -116,6 +116,7 @@ int main(){
     DMA_init(&Channel_1_Config);
     DMA_init(&Channel_2_Config);
 
+
     //auxText ist ein globaler Zeiger, er ist noetig da die Zieladdrese vom Kanal 1 und die Quelladdrese vom Kanal 2
     //sich immer aendern wird und in der ISR neu angepasst werden muessen
     auxText = Text;
