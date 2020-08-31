@@ -91,9 +91,21 @@ typedef enum{
 	TRUE		=  0b1
 }bool_t;
 
-void DMA_init(uint32_t channelNumber, uint32_t sourceAddress, uint32_t destinationAddress, uint32_t transferNumber, 
-                betriebsmodus_t betrieb, bool_t byteTransfer, bool_t IRFreigabe, bool_t exEreignisEn);
+typedef struct config{
 
-void ChannelEnable(uint32_t channelNumber, uint32_t ControlRegisterValue);
-void InterruptAck(uint32_t channelNumber, uint32_t ControlRegisterValue);
+	uint32_t ChannelNumber;
+	uint32_t SourceAddress;
+	uint32_t DestinationAddress;
+	uint32_t TransferNumber;
+	betriebsmodus_t Betriebsmodus;
+	bool_t ByteTransfer;
+	bool_t IRFreigabe;
+	bool_t ExEreignisEn;
+	uint32_t ControlRegVal;
+}Config_Channel_Info;
+
+void DMA_init(Config_Channel_Info* Channel);
+
+void ChannelEnable(Config_Channel_Info* Channel);
+void InterruptAck(Config_Channel_Info* Channel);
                 

@@ -6,9 +6,8 @@
 -- Hochschule Osnabrueck
 -- Joaquin Ortiz, Filip Mijac
 -------------------------------------------------------------------------------
-*/
-/*
- *Dieses Programm zeigt die Fähigkeit der Kanäle, Bytes zu übertragen egal
+
+ *Dieses Programm zeigt die Faehigkeit der Kanaele, Bytes zu uebertragen egal
  *ob die Adresse Word-Aligned ist oder nicht
  */
 
@@ -20,6 +19,7 @@
 
 #define TEXT_MAX_LENGTH  1024
 volatile uint32_t configChannel_0;
+Config_Channel_Info* volatile Channel_0_p;
 
 void DMA_Handler()
 {
@@ -27,9 +27,11 @@ void DMA_Handler()
 
 	if(status & DMA_CHA0_IRQ)
 	{
-		InterruptAck(CHANNEL_0, configChannel_0);
+		//
+		//Interrupt quittieren
+		//
+		InterruptAck(Channel_0_p);
 	}
-
 }
 
 int main()
@@ -47,34 +49,61 @@ int main()
 	    "Meine Schueler an der Nase herum -\r\n"
 	    "Und sehe, dass wir nichts wissen koennen!\r\n";
 
-uint32_t i = 0;
-while(Gedicht[i] != '\0')
-	i++;
+	uint32_t i = 0;
+	//
+	//Lï¿½nge des Gedichtes bestimmen
+	//
+	while(Gedicht[i] != '\0')
+		i++;
 
-const uint32_t TextLength = ++i;
-char NeuesGedicht[TEXT_MAX_LENGTH];
-bool_t Tra_Fertig = FALSE;
+	const uint32_t TextLength = ++i;
+	char NeuesGedicht[TEXT_MAX_LENGTH];
+	bool_t Tra_Fertig = FALSE;
 
-DMA_init(CHANNEL_0, (uint32_t)(Gedicht+10), (uint32_t)(NeuesGedicht+6), TextLength, SPEI_SPEI, FALSE, TRUE, FALSE);
-configChannel_0 = in32(DMA_BASE + DMA_CR0);
-ChannelEnable(CHANNEL_0, configChannel_0);
+	//
+	//Struct mit der Einstellung des Kanals 0
+	//
+	Config_Channel_Info Channel_0_Config = {CHANNEL_0,(uint32_t)(Gedicht+10),(uint32_t)(NeuesGedicht+6),TextLength,SPEI_SPEI,FALSE,TRUE,FALSE};
 
-	while(1)
-	{
-		if((in32(DMA_BASE + DMA_SR) & CHANNEL_0) == 0 && Tra_Fertig == FALSE)
+	//
+	//Channel Initialisierung
+	//
+	DMA_init(&Channel_0_Config);
+
+	//
+	//Wert vom Kontroll-Register speichern
+	//
+	Channel_0_Config.ControlRegVal = in32(DMA_BASE + DMA_CR0);
+
+	//
+	//Zuweisung an die globale Variable
+	//
+	Channel_0_p = &Channel_0_Config;
+
+	//
+	//Kanal starten
+	//
+	ChannelEnable(&Channel_0_Config);
+
+		while(1)
 		{
-			for(int i = 0; i <= TextLength; i++)
+			if((in32(DMA_BASE + DMA_SR) & CHANNEL_0) == 0 && Tra_Fertig == FALSE)
 			{
-				if(NeuesGedicht[i] == '\0')
-					break;
+				for(int i = 0; i <= TextLength; i++)
+				{
+					if(NeuesGedicht[i] == '\0')
+						break;
 
-				else if(Gedicht[i + 10] != NeuesGedicht[i + 6])
-					out32(DMA_BASE + DMA_CR0, in32(DMA_BASE +  DMA_CR0) & ~(1<<3));
+					//
+					//Ist der Transfer erfolgreich, soll die folgende Anweisung immer falsch sein
+					//
+					else if(Gedicht[i + 10] != NeuesGedicht[i + 6])
+						out32(DMA_BASE + DMA_CR0, in32(DMA_BASE +  DMA_CR0) & ~(1<<3));
+				}
+
+				Tra_Fertig = TRUE;
 			}
-
-			Tra_Fertig = TRUE;
 		}
-	}
 
 	return 0;
 }

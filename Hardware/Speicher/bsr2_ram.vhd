@@ -1,6 +1,6 @@
 ----------------------------------------------
 -- Erzeugt mit Create_Blockram
---   InFilename   = ..\Software\TestAddressNotAligned\Debug\TestAddressNotAligned.hex
+--   InFilename   = ..\Software\TestDMA\Debug\TestDMA.hex
 --   Templatename = template_bsr2_rom.vhd
 --   Startadresse = 0x4000
 --   Endadresse   = 0x7fff
