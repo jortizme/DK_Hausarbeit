@@ -3,9 +3,9 @@ dk.elf:     file format elf32-tradlittlemips
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00001998  00000000  00000000  00010000  2**2
+  0 .text         00001d7c  00000000  00000000  00010000  2**2
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  3 .bss          000002b4  00004000  000019b7  00014000  2**2
+  3 .bss          0000007c  00004000  00001d9f  00014000  2**2
                   ALLOC
 SYMBOL TABLE:
 00000000 l    d  .text	00000000 .text
@@ -22,44 +22,45 @@ SYMBOL TABLE:
 000000d0 l       .text	00000000 _IP4_Handler
 000000f0 l       .text	00000000 _save_regs
 00000138 l       .text	00000000 _restore_regs
-00000f58 l     F .text	00000094 printchar
-00000fec l     F .text	000001c4 prints
-000011b0 l     F .text	000001d8 printi
-00001388 l     F .text	000003cc print
-00004000 l     O .bss	00000004 uart_baseaddr
-00001754 g     F .text	0000004c printf
-00004244 g     O .bss	00000010 rx_fifo
-00004004 g     O .bss	00000200 gesamtReceived
+00004000 l     O .bss	00000004 offset_K1.1599
+00004004 l     O .bss	00000004 offset_K2.1600
+0000133c l     F .text	00000094 printchar
+000013d0 l     F .text	000001c4 prints
+00001594 l     F .text	000001d8 printi
+0000176c l     F .text	000003cc print
+00004008 l     O .bss	00000004 uart_baseaddr
+00001b38 g     F .text	0000004c printf
+0000400c g     O .bss	00000010 rx_fifo
 000001f8 g     F .text	0000015c char_fifo_push
 000004e8 g     F .text	00000030 in32
-000017ec g     F .text	000000c0 UART_Init
+00001bd0 g     F .text	000000c0 UART_Init
 00000560  w    F .text	00000024 IP3_Handler
-00000d58 g     F .text	00000094 memcpy
-00000ed8 g     F .text	00000080 puts
+0000113c g     F .text	00000094 memcpy
+000012bc g     F .text	00000080 puts
 000006fc g     F .text	00000094 _mtc0
 00004000 g       .bss	00000000 _bss_start
 00000354 g     F .text	00000158 char_fifo_pop
 00000518  w    F .text	00000024 IP0_Handler
-000008e8 g     F .text	000000a8 ChannelEnable
+00000aac g     F .text	00000148 ChannelEnable
 000005a8 g     F .text	00000060 cpu_enable_interrupt
-000042b4 g       .bss	00000000 _bss_end
-00004204 g     O .bss	00000040 Receiver_FIFO_1
-00004254 g     O .bss	00000028 rx_buffer
-0000427c g     O .bss	00000028 tx_buffer
+0000407c g       .bss	00000000 _bss_end
+0000401c g     O .bss	00000028 rx_buffer
+00004044 g     O .bss	00000028 tx_buffer
 00000190 g     F .text	00000068 char_fifo_init
 00000584  w    F .text	00000024 IP4_Handler
 00000608 g     F .text	00000068 cpu_disable_interrupt
-0000190c g     F .text	0000008c outbyte
+00000bf4 g     F .text	00000148 InterruptAck
+00001cf0 g     F .text	0000008c outbyte
 00000188 g     O .text	00000000 _di
 000004ac g     F .text	0000003c out32
-00000dec g     F .text	0000007c memset
-00000c78 g     F .text	000000e0 main
-000042a4 g     O .bss	00000010 tx_fifo
-000017a0 g     F .text	0000004c sprintf
-00000790 g     F .text	00000158 DMA_init
-00000e68 g     F .text	00000070 _premain
-000018ac g     F .text	00000060 inbyte
-000009dc g     F .text	0000029c IP2_Handler
+000011d0 g     F .text	0000007c memset
+00000f2c g     F .text	00000210 main
+0000406c g     O .bss	00000010 tx_fifo
+00001b84 g     F .text	0000004c sprintf
+00000790 g     F .text	0000031c DMA_init
+0000124c g     F .text	00000070 _premain
+00001c90 g     F .text	00000060 inbyte
+00000d88 g     F .text	000001a4 IP2_Handler
 00000180 g     O .text	00000000 _ei
 00000670 g     F .text	0000008c _mfc0
 
@@ -100,7 +101,7 @@ Disassembly of section .text:
       60:	3c1c0000 	lui	gp,0x0
       64:	279c4000 	addiu	gp,gp,16384
       68:	41606020 	ei
-      6c:	0800039a 	j	e68 <_premain>
+      6c:	08000493 	j	124c <_premain>
 
 00000070 <_IP0_Handler>:
       70:	27bdffb8 	addiu	sp,sp,-72
@@ -116,7 +117,7 @@ Disassembly of section .text:
       90:	27bdffb8 	addiu	sp,sp,-72
       94:	afbf0000 	sw	ra,0(sp)
       98:	0c00003c 	jal	f0 <_save_regs>
-      9c:	0c000277 	jal	9dc <IP2_Handler>
+      9c:	0c000362 	jal	d88 <IP2_Handler>
       a0:	0c00004e 	jal	138 <_restore_regs>
       a4:	8fbf0000 	lw	ra,0(sp)
       a8:	27bd0048 	addiu	sp,sp,72
@@ -749,1734 +750,2111 @@ void _mtc0(CP0_REG_t reg, uint32_t val)
      78c:	00000000 	nop
 
 00000790 <DMA_init>:
-//  ---------------------------------------
+#include <config.h>
+#include <cpu.h>
 
 
-void DMA_init(uint32_t channelNumber, uint32_t sourceAddress, uint32_t destinationAddress, uint32_t transferNumber, 
-                betriebsmodus_t betrieb, bool_t byteTransfer, bool_t IRFreigabe, bool_t exEreignisEn)
+void DMA_init(Config_Channel_Info* Channel)
 {
      790:	27bdffe0 	addiu	sp,sp,-32
      794:	afbf001c 	sw	ra,28(sp)
      798:	afbe0018 	sw	s8,24(sp)
      79c:	03a0f025 	move	s8,sp
      7a0:	afc40020 	sw	a0,32(s8)
-     7a4:	afc50024 	sw	a1,36(s8)
-     7a8:	afc60028 	sw	a2,40(s8)
-     7ac:	afc7002c 	sw	a3,44(s8)
     uint32_t controlRegVal = 0;
-     7b0:	afc00010 	sw	zero,16(s8)
+     7a4:	afc00010 	sw	zero,16(s8)
 
-    controlRegVal = controlRegVal | ((exEreignisEn << 4) | (IRFreigabe << 3)  |  (byteTransfer << 2) | betrieb);
-     7b4:	8fc2003c 	lw	v0,60(s8)
-     7b8:	00000000 	nop
-     7bc:	00021900 	sll	v1,v0,0x4
-     7c0:	8fc20038 	lw	v0,56(s8)
-     7c4:	00000000 	nop
-     7c8:	000210c0 	sll	v0,v0,0x3
-     7cc:	00621825 	or	v1,v1,v0
-     7d0:	8fc20034 	lw	v0,52(s8)
-     7d4:	00000000 	nop
-     7d8:	00021080 	sll	v0,v0,0x2
-     7dc:	00621825 	or	v1,v1,v0
-     7e0:	8fc20030 	lw	v0,48(s8)
-     7e4:	00000000 	nop
-     7e8:	00621025 	or	v0,v1,v0
-     7ec:	8fc30010 	lw	v1,16(s8)
+    controlRegVal = controlRegVal | ((Channel->ExEreignisEn << 4) | (Channel->IRFreigabe << 3)  |  (Channel->ByteTransfer << 2) | Channel->Betriebsmodus);
+     7a8:	8fc20020 	lw	v0,32(s8)
+     7ac:	00000000 	nop
+     7b0:	8c42001c 	lw	v0,28(v0)
+     7b4:	00000000 	nop
+     7b8:	00021900 	sll	v1,v0,0x4
+     7bc:	8fc20020 	lw	v0,32(s8)
+     7c0:	00000000 	nop
+     7c4:	8c420018 	lw	v0,24(v0)
+     7c8:	00000000 	nop
+     7cc:	000210c0 	sll	v0,v0,0x3
+     7d0:	00621825 	or	v1,v1,v0
+     7d4:	8fc20020 	lw	v0,32(s8)
+     7d8:	00000000 	nop
+     7dc:	8c420014 	lw	v0,20(v0)
+     7e0:	00000000 	nop
+     7e4:	00021080 	sll	v0,v0,0x2
+     7e8:	00621825 	or	v1,v1,v0
+     7ec:	8fc20020 	lw	v0,32(s8)
      7f0:	00000000 	nop
-     7f4:	00621025 	or	v0,v1,v0
-     7f8:	afc20010 	sw	v0,16(s8)
+     7f4:	8c420010 	lw	v0,16(v0)
+     7f8:	00000000 	nop
+     7fc:	00621025 	or	v0,v1,v0
+     800:	8fc30010 	lw	v1,16(s8)
+     804:	00000000 	nop
+     808:	00621025 	or	v0,v1,v0
+     80c:	afc20010 	sw	v0,16(s8)
 
-    if(CHANNEL_1 == channelNumber)
-     7fc:	8fc30020 	lw	v1,32(s8)
-     800:	24020001 	li	v0,1
-     804:	14620016 	bne	v1,v0,860 <DMA_init+0xd0>
-     808:	00000000 	nop
+    if(CHANNEL_0 == Channel->ChannelNumber)
+     810:	8fc20020 	lw	v0,32(s8)
+     814:	00000000 	nop
+     818:	8c430000 	lw	v1,0(v0)
+     81c:	24020001 	li	v0,1
+     820:	14620022 	bne	v1,v0,8ac <DMA_init+0x11c>
+     824:	00000000 	nop
     {
         //Source Address configuration
-        out32(DMA_BASE + DMA_SAR0, sourceAddress);
-     80c:	8fc50024 	lw	a1,36(s8)
-     810:	3c040003 	lui	a0,0x3
-     814:	0c00012b 	jal	4ac <out32>
-     818:	00000000 	nop
+        out32(DMA_BASE + DMA_SAR0, Channel->SourceAddress);
+     828:	8fc20020 	lw	v0,32(s8)
+     82c:	00000000 	nop
+     830:	8c420004 	lw	v0,4(v0)
+     834:	00000000 	nop
+     838:	00402825 	move	a1,v0
+     83c:	3c040003 	lui	a0,0x3
+     840:	0c00012b 	jal	4ac <out32>
+     844:	00000000 	nop
 
         //Destination Address configuration
-        out32(DMA_BASE + DMA_DESTR0, destinationAddress);
-     81c:	8fc50028 	lw	a1,40(s8)
-     820:	3c020003 	lui	v0,0x3
-     824:	34440004 	ori	a0,v0,0x4
-     828:	0c00012b 	jal	4ac <out32>
-     82c:	00000000 	nop
+        out32(DMA_BASE + DMA_DESTR0, Channel->DestinationAddress);
+     848:	8fc20020 	lw	v0,32(s8)
+     84c:	00000000 	nop
+     850:	8c420008 	lw	v0,8(v0)
+     854:	00000000 	nop
+     858:	00402825 	move	a1,v0
+     85c:	3c020003 	lui	v0,0x3
+     860:	34440004 	ori	a0,v0,0x4
+     864:	0c00012b 	jal	4ac <out32>
+     868:	00000000 	nop
 
         //Number of transfers
-        out32(DMA_BASE + DMA_TRAAR0, transferNumber);
-     830:	8fc5002c 	lw	a1,44(s8)
-     834:	3c020003 	lui	v0,0x3
-     838:	34440008 	ori	a0,v0,0x8
-     83c:	0c00012b 	jal	4ac <out32>
-     840:	00000000 	nop
+        out32(DMA_BASE + DMA_TRAAR0, Channel->TransferNumber);
+     86c:	8fc20020 	lw	v0,32(s8)
+     870:	00000000 	nop
+     874:	8c42000c 	lw	v0,12(v0)
+     878:	00000000 	nop
+     87c:	00402825 	move	a1,v0
+     880:	3c020003 	lui	v0,0x3
+     884:	34440008 	ori	a0,v0,0x8
+     888:	0c00012b 	jal	4ac <out32>
+     88c:	00000000 	nop
 
         //Control Register
         out32(DMA_BASE + DMA_CR0, controlRegVal);
-     844:	8fc50010 	lw	a1,16(s8)
-     848:	3c020003 	lui	v0,0x3
-     84c:	3444000c 	ori	a0,v0,0xc
-     850:	0c00012b 	jal	4ac <out32>
-     854:	00000000 	nop
-     858:	10000019 	b	8c0 <DMA_init+0x130>
-     85c:	00000000 	nop
+     890:	8fc50010 	lw	a1,16(s8)
+     894:	3c020003 	lui	v0,0x3
+     898:	3444000c 	ori	a0,v0,0xc
+     89c:	0c00012b 	jal	4ac <out32>
+     8a0:	00000000 	nop
+     8a4:	10000077 	b	a84 <DMA_init+0x2f4>
+     8a8:	00000000 	nop
     }
-    else if(CHANNEL_2 == channelNumber)
-     860:	8fc30020 	lw	v1,32(s8)
-     864:	24020002 	li	v0,2
-     868:	14620015 	bne	v1,v0,8c0 <DMA_init+0x130>
-     86c:	00000000 	nop
+    else if(CHANNEL_1 == Channel->ChannelNumber)
+     8ac:	8fc20020 	lw	v0,32(s8)
+     8b0:	00000000 	nop
+     8b4:	8c430000 	lw	v1,0(v0)
+     8b8:	24020002 	li	v0,2
+     8bc:	14620023 	bne	v1,v0,94c <DMA_init+0x1bc>
+     8c0:	00000000 	nop
     {
         //Source Address configuration
-        out32(DMA_BASE + DMA_SAR1, sourceAddress);
-     870:	8fc50024 	lw	a1,36(s8)
-     874:	3c020003 	lui	v0,0x3
-     878:	34440010 	ori	a0,v0,0x10
-     87c:	0c00012b 	jal	4ac <out32>
-     880:	00000000 	nop
+        out32(DMA_BASE + DMA_SAR1, Channel->SourceAddress);
+     8c4:	8fc20020 	lw	v0,32(s8)
+     8c8:	00000000 	nop
+     8cc:	8c420004 	lw	v0,4(v0)
+     8d0:	00000000 	nop
+     8d4:	00402825 	move	a1,v0
+     8d8:	3c020003 	lui	v0,0x3
+     8dc:	34440010 	ori	a0,v0,0x10
+     8e0:	0c00012b 	jal	4ac <out32>
+     8e4:	00000000 	nop
 
         //Destination Address configuration
-        out32(DMA_BASE + DMA_DESTR1, destinationAddress);
-     884:	8fc50028 	lw	a1,40(s8)
-     888:	3c020003 	lui	v0,0x3
-     88c:	34440014 	ori	a0,v0,0x14
-     890:	0c00012b 	jal	4ac <out32>
-     894:	00000000 	nop
+        out32(DMA_BASE + DMA_DESTR1, Channel->DestinationAddress);
+     8e8:	8fc20020 	lw	v0,32(s8)
+     8ec:	00000000 	nop
+     8f0:	8c420008 	lw	v0,8(v0)
+     8f4:	00000000 	nop
+     8f8:	00402825 	move	a1,v0
+     8fc:	3c020003 	lui	v0,0x3
+     900:	34440014 	ori	a0,v0,0x14
+     904:	0c00012b 	jal	4ac <out32>
+     908:	00000000 	nop
 
         //Number of transfers
-        out32(DMA_BASE + DMA_TRAAR1, transferNumber);
-     898:	8fc5002c 	lw	a1,44(s8)
-     89c:	3c020003 	lui	v0,0x3
-     8a0:	34440018 	ori	a0,v0,0x18
-     8a4:	0c00012b 	jal	4ac <out32>
-     8a8:	00000000 	nop
+        out32(DMA_BASE + DMA_TRAAR1, Channel->TransferNumber);
+     90c:	8fc20020 	lw	v0,32(s8)
+     910:	00000000 	nop
+     914:	8c42000c 	lw	v0,12(v0)
+     918:	00000000 	nop
+     91c:	00402825 	move	a1,v0
+     920:	3c020003 	lui	v0,0x3
+     924:	34440018 	ori	a0,v0,0x18
+     928:	0c00012b 	jal	4ac <out32>
+     92c:	00000000 	nop
 
         //Control Register
         out32(DMA_BASE + DMA_CR1, controlRegVal);
-     8ac:	8fc50010 	lw	a1,16(s8)
-     8b0:	3c020003 	lui	v0,0x3
-     8b4:	3444001c 	ori	a0,v0,0x1c
-     8b8:	0c00012b 	jal	4ac <out32>
-     8bc:	00000000 	nop
+     930:	8fc50010 	lw	a1,16(s8)
+     934:	3c020003 	lui	v0,0x3
+     938:	3444001c 	ori	a0,v0,0x1c
+     93c:	0c00012b 	jal	4ac <out32>
+     940:	00000000 	nop
+     944:	1000004f 	b	a84 <DMA_init+0x2f4>
+     948:	00000000 	nop
+    }
+    else if(CHANNEL_2 == Channel->ChannelNumber)
+     94c:	8fc20020 	lw	v0,32(s8)
+     950:	00000000 	nop
+     954:	8c430000 	lw	v1,0(v0)
+     958:	24020004 	li	v0,4
+     95c:	14620023 	bne	v1,v0,9ec <DMA_init+0x25c>
+     960:	00000000 	nop
+    {
+        //Source Address configuration
+        out32(DMA_BASE + DMA_SAR2, Channel->SourceAddress);
+     964:	8fc20020 	lw	v0,32(s8)
+     968:	00000000 	nop
+     96c:	8c420004 	lw	v0,4(v0)
+     970:	00000000 	nop
+     974:	00402825 	move	a1,v0
+     978:	3c020003 	lui	v0,0x3
+     97c:	34440020 	ori	a0,v0,0x20
+     980:	0c00012b 	jal	4ac <out32>
+     984:	00000000 	nop
+
+        //Destination Address configuration
+        out32(DMA_BASE + DMA_DESTR2, Channel->DestinationAddress);
+     988:	8fc20020 	lw	v0,32(s8)
+     98c:	00000000 	nop
+     990:	8c420008 	lw	v0,8(v0)
+     994:	00000000 	nop
+     998:	00402825 	move	a1,v0
+     99c:	3c020003 	lui	v0,0x3
+     9a0:	34440024 	ori	a0,v0,0x24
+     9a4:	0c00012b 	jal	4ac <out32>
+     9a8:	00000000 	nop
+
+        //Number of transfers
+        out32(DMA_BASE + DMA_TRAAR2, Channel->TransferNumber);
+     9ac:	8fc20020 	lw	v0,32(s8)
+     9b0:	00000000 	nop
+     9b4:	8c42000c 	lw	v0,12(v0)
+     9b8:	00000000 	nop
+     9bc:	00402825 	move	a1,v0
+     9c0:	3c020003 	lui	v0,0x3
+     9c4:	34440028 	ori	a0,v0,0x28
+     9c8:	0c00012b 	jal	4ac <out32>
+     9cc:	00000000 	nop
+
+        //Control Register
+        out32(DMA_BASE + DMA_CR2, controlRegVal);
+     9d0:	8fc50010 	lw	a1,16(s8)
+     9d4:	3c020003 	lui	v0,0x3
+     9d8:	3444002c 	ori	a0,v0,0x2c
+     9dc:	0c00012b 	jal	4ac <out32>
+     9e0:	00000000 	nop
+     9e4:	10000027 	b	a84 <DMA_init+0x2f4>
+     9e8:	00000000 	nop
+    }
+    else if(CHANNEL_3 == Channel->ChannelNumber)
+     9ec:	8fc20020 	lw	v0,32(s8)
+     9f0:	00000000 	nop
+     9f4:	8c430000 	lw	v1,0(v0)
+     9f8:	24020008 	li	v0,8
+     9fc:	14620021 	bne	v1,v0,a84 <DMA_init+0x2f4>
+     a00:	00000000 	nop
+    {
+        //Source Address configuration
+        out32(DMA_BASE + DMA_SAR3, Channel->SourceAddress);
+     a04:	8fc20020 	lw	v0,32(s8)
+     a08:	00000000 	nop
+     a0c:	8c420004 	lw	v0,4(v0)
+     a10:	00000000 	nop
+     a14:	00402825 	move	a1,v0
+     a18:	3c020003 	lui	v0,0x3
+     a1c:	34440030 	ori	a0,v0,0x30
+     a20:	0c00012b 	jal	4ac <out32>
+     a24:	00000000 	nop
+
+        //Destination Address configuration
+        out32(DMA_BASE + DMA_DESTR3, Channel->DestinationAddress);
+     a28:	8fc20020 	lw	v0,32(s8)
+     a2c:	00000000 	nop
+     a30:	8c420008 	lw	v0,8(v0)
+     a34:	00000000 	nop
+     a38:	00402825 	move	a1,v0
+     a3c:	3c020003 	lui	v0,0x3
+     a40:	34440034 	ori	a0,v0,0x34
+     a44:	0c00012b 	jal	4ac <out32>
+     a48:	00000000 	nop
+
+        //Number of transfers
+        out32(DMA_BASE + DMA_TRAAR3, Channel->TransferNumber);
+     a4c:	8fc20020 	lw	v0,32(s8)
+     a50:	00000000 	nop
+     a54:	8c42000c 	lw	v0,12(v0)
+     a58:	00000000 	nop
+     a5c:	00402825 	move	a1,v0
+     a60:	3c020003 	lui	v0,0x3
+     a64:	34440038 	ori	a0,v0,0x38
+     a68:	0c00012b 	jal	4ac <out32>
+     a6c:	00000000 	nop
+
+        //Control Register
+        out32(DMA_BASE + DMA_CR3, controlRegVal);
+     a70:	8fc50010 	lw	a1,16(s8)
+     a74:	3c020003 	lui	v0,0x3
+     a78:	3444003c 	ori	a0,v0,0x3c
+     a7c:	0c00012b 	jal	4ac <out32>
+     a80:	00000000 	nop
     }
 
     	// enable interrupt for DMA
 	    cpu_enable_interrupt(DMA_INTR);
-     8c0:	24040400 	li	a0,1024
-     8c4:	0c00016a 	jal	5a8 <cpu_enable_interrupt>
-     8c8:	00000000 	nop
+     a84:	24040400 	li	a0,1024
+     a88:	0c00016a 	jal	5a8 <cpu_enable_interrupt>
+     a8c:	00000000 	nop
 }
-     8cc:	00000000 	nop
-     8d0:	03c0e825 	move	sp,s8
-     8d4:	8fbf001c 	lw	ra,28(sp)
-     8d8:	8fbe0018 	lw	s8,24(sp)
-     8dc:	27bd0020 	addiu	sp,sp,32
-     8e0:	03e00008 	jr	ra
-     8e4:	00000000 	nop
+     a90:	00000000 	nop
+     a94:	03c0e825 	move	sp,s8
+     a98:	8fbf001c 	lw	ra,28(sp)
+     a9c:	8fbe0018 	lw	s8,24(sp)
+     aa0:	27bd0020 	addiu	sp,sp,32
+     aa4:	03e00008 	jr	ra
+     aa8:	00000000 	nop
 
-000008e8 <ChannelEnable>:
+00000aac <ChannelEnable>:
 
 
-void ChannelEnable(uint32_t channelNumber)
+void ChannelEnable(Config_Channel_Info* Channel)
 {
-     8e8:	27bdffe8 	addiu	sp,sp,-24
-     8ec:	afbf0014 	sw	ra,20(sp)
-     8f0:	afbe0010 	sw	s8,16(sp)
-     8f4:	03a0f025 	move	s8,sp
-     8f8:	afc40018 	sw	a0,24(s8)
-    if(CHANNEL_1 == channelNumber)
-     8fc:	8fc30018 	lw	v1,24(s8)
-     900:	24020001 	li	v0,1
-     904:	1462000d 	bne	v1,v0,93c <ChannelEnable+0x54>
-     908:	00000000 	nop
+     aac:	27bdffe8 	addiu	sp,sp,-24
+     ab0:	afbf0014 	sw	ra,20(sp)
+     ab4:	afbe0010 	sw	s8,16(sp)
+     ab8:	03a0f025 	move	s8,sp
+     abc:	afc40018 	sw	a0,24(s8)
+    if(CHANNEL_0 == Channel->ChannelNumber)
+     ac0:	8fc20018 	lw	v0,24(s8)
+     ac4:	00000000 	nop
+     ac8:	8c430000 	lw	v1,0(v0)
+     acc:	24020001 	li	v0,1
+     ad0:	1462000d 	bne	v1,v0,b08 <ChannelEnable+0x5c>
+     ad4:	00000000 	nop
     {
-        out32(DMA_BASE + DMA_CR0, in32(DMA_BASE + DMA_CR0) | CHANNEL_EN);
-     90c:	3c020003 	lui	v0,0x3
-     910:	3444000c 	ori	a0,v0,0xc
-     914:	0c00013a 	jal	4e8 <in32>
-     918:	00000000 	nop
-     91c:	34420100 	ori	v0,v0,0x100
-     920:	00402825 	move	a1,v0
-     924:	3c020003 	lui	v0,0x3
-     928:	3444000c 	ori	a0,v0,0xc
-     92c:	0c00012b 	jal	4ac <out32>
-     930:	00000000 	nop
+        out32(DMA_BASE + DMA_CR0, Channel->ControlRegVal | CHANNEL_EN);
+     ad8:	8fc20018 	lw	v0,24(s8)
+     adc:	00000000 	nop
+     ae0:	8c420020 	lw	v0,32(v0)
+     ae4:	00000000 	nop
+     ae8:	34420100 	ori	v0,v0,0x100
+     aec:	00402825 	move	a1,v0
+     af0:	3c020003 	lui	v0,0x3
+     af4:	3444000c 	ori	a0,v0,0xc
+     af8:	0c00012b 	jal	4ac <out32>
+     afc:	00000000 	nop
     }
-    else if (CHANNEL_2 == channelNumber) 
+    else if (CHANNEL_3 == Channel->ChannelNumber)
     {
-        out32(DMA_BASE + DMA_CR1, in32(DMA_BASE + DMA_CR1) | CHANNEL_EN);    
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_EN);
     }
 }
-     934:	1000000f 	b	974 <ChannelEnable+0x8c>
-     938:	00000000 	nop
+     b00:	10000035 	b	bd8 <ChannelEnable+0x12c>
+     b04:	00000000 	nop
 {
-    if(CHANNEL_1 == channelNumber)
+    if(CHANNEL_0 == Channel->ChannelNumber)
     {
-        out32(DMA_BASE + DMA_CR0, in32(DMA_BASE + DMA_CR0) | CHANNEL_EN);
+        out32(DMA_BASE + DMA_CR0, Channel->ControlRegVal | CHANNEL_EN);
     }
-    else if (CHANNEL_2 == channelNumber) 
-     93c:	8fc30018 	lw	v1,24(s8)
-     940:	24020002 	li	v0,2
-     944:	1462000b 	bne	v1,v0,974 <ChannelEnable+0x8c>
-     948:	00000000 	nop
+    else if (CHANNEL_1 == Channel->ChannelNumber)
+     b08:	8fc20018 	lw	v0,24(s8)
+     b0c:	00000000 	nop
+     b10:	8c430000 	lw	v1,0(v0)
+     b14:	24020002 	li	v0,2
+     b18:	1462000d 	bne	v1,v0,b50 <ChannelEnable+0xa4>
+     b1c:	00000000 	nop
     {
-        out32(DMA_BASE + DMA_CR1, in32(DMA_BASE + DMA_CR1) | CHANNEL_EN);    
-     94c:	3c020003 	lui	v0,0x3
-     950:	3444001c 	ori	a0,v0,0x1c
-     954:	0c00013a 	jal	4e8 <in32>
-     958:	00000000 	nop
-     95c:	34420100 	ori	v0,v0,0x100
-     960:	00402825 	move	a1,v0
-     964:	3c020003 	lui	v0,0x3
-     968:	3444001c 	ori	a0,v0,0x1c
-     96c:	0c00012b 	jal	4ac <out32>
-     970:	00000000 	nop
+        out32(DMA_BASE + DMA_CR1, Channel->ControlRegVal | CHANNEL_EN);
+     b20:	8fc20018 	lw	v0,24(s8)
+     b24:	00000000 	nop
+     b28:	8c420020 	lw	v0,32(v0)
+     b2c:	00000000 	nop
+     b30:	34420100 	ori	v0,v0,0x100
+     b34:	00402825 	move	a1,v0
+     b38:	3c020003 	lui	v0,0x3
+     b3c:	3444001c 	ori	a0,v0,0x1c
+     b40:	0c00012b 	jal	4ac <out32>
+     b44:	00000000 	nop
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_EN);
     }
 }
-     974:	00000000 	nop
-     978:	03c0e825 	move	sp,s8
-     97c:	8fbf0014 	lw	ra,20(sp)
-     980:	8fbe0010 	lw	s8,16(sp)
-     984:	27bd0018 	addiu	sp,sp,24
-     988:	03e00008 	jr	ra
-     98c:	00000000 	nop
+     b48:	10000023 	b	bd8 <ChannelEnable+0x12c>
+     b4c:	00000000 	nop
+    }
+    else if (CHANNEL_1 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR1, Channel->ControlRegVal | CHANNEL_EN);
+    }
+    else if (CHANNEL_2 == Channel->ChannelNumber)
+     b50:	8fc20018 	lw	v0,24(s8)
+     b54:	00000000 	nop
+     b58:	8c430000 	lw	v1,0(v0)
+     b5c:	24020004 	li	v0,4
+     b60:	1462000d 	bne	v1,v0,b98 <ChannelEnable+0xec>
+     b64:	00000000 	nop
+    {
+        out32(DMA_BASE + DMA_CR2, Channel->ControlRegVal | CHANNEL_EN);
+     b68:	8fc20018 	lw	v0,24(s8)
+     b6c:	00000000 	nop
+     b70:	8c420020 	lw	v0,32(v0)
+     b74:	00000000 	nop
+     b78:	34420100 	ori	v0,v0,0x100
+     b7c:	00402825 	move	a1,v0
+     b80:	3c020003 	lui	v0,0x3
+     b84:	3444002c 	ori	a0,v0,0x2c
+     b88:	0c00012b 	jal	4ac <out32>
+     b8c:	00000000 	nop
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_EN);
+    }
+}
+     b90:	10000011 	b	bd8 <ChannelEnable+0x12c>
+     b94:	00000000 	nop
+    }
+    else if (CHANNEL_2 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR2, Channel->ControlRegVal | CHANNEL_EN);
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+     b98:	8fc20018 	lw	v0,24(s8)
+     b9c:	00000000 	nop
+     ba0:	8c430000 	lw	v1,0(v0)
+     ba4:	24020008 	li	v0,8
+     ba8:	1462000b 	bne	v1,v0,bd8 <ChannelEnable+0x12c>
+     bac:	00000000 	nop
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_EN);
+     bb0:	8fc20018 	lw	v0,24(s8)
+     bb4:	00000000 	nop
+     bb8:	8c420020 	lw	v0,32(v0)
+     bbc:	00000000 	nop
+     bc0:	34420100 	ori	v0,v0,0x100
+     bc4:	00402825 	move	a1,v0
+     bc8:	3c020003 	lui	v0,0x3
+     bcc:	3444003c 	ori	a0,v0,0x3c
+     bd0:	0c00012b 	jal	4ac <out32>
+     bd4:	00000000 	nop
+    }
+}
+     bd8:	00000000 	nop
+     bdc:	03c0e825 	move	sp,s8
+     be0:	8fbf0014 	lw	ra,20(sp)
+     be4:	8fbe0010 	lw	s8,16(sp)
+     be8:	27bd0018 	addiu	sp,sp,24
+     bec:	03e00008 	jr	ra
+     bf0:	00000000 	nop
+
+00000bf4 <InterruptAck>:
+
+void InterruptAck(Config_Channel_Info* Channel)
+{
+     bf4:	27bdffe8 	addiu	sp,sp,-24
+     bf8:	afbf0014 	sw	ra,20(sp)
+     bfc:	afbe0010 	sw	s8,16(sp)
+     c00:	03a0f025 	move	s8,sp
+     c04:	afc40018 	sw	a0,24(s8)
+    if(CHANNEL_0 == Channel->ChannelNumber)
+     c08:	8fc20018 	lw	v0,24(s8)
+     c0c:	00000000 	nop
+     c10:	8c430000 	lw	v1,0(v0)
+     c14:	24020001 	li	v0,1
+     c18:	1462000d 	bne	v1,v0,c50 <InterruptAck+0x5c>
+     c1c:	00000000 	nop
+    {
+        out32(DMA_BASE + DMA_CR0, Channel->ControlRegVal | CHANNEL_IR_ACK);
+     c20:	8fc20018 	lw	v0,24(s8)
+     c24:	00000000 	nop
+     c28:	8c420020 	lw	v0,32(v0)
+     c2c:	00000000 	nop
+     c30:	34420200 	ori	v0,v0,0x200
+     c34:	00402825 	move	a1,v0
+     c38:	3c020003 	lui	v0,0x3
+     c3c:	3444000c 	ori	a0,v0,0xc
+     c40:	0c00012b 	jal	4ac <out32>
+     c44:	00000000 	nop
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+}
+     c48:	10000035 	b	d20 <InterruptAck+0x12c>
+     c4c:	00000000 	nop
+{
+    if(CHANNEL_0 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR0, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_1 == Channel->ChannelNumber)
+     c50:	8fc20018 	lw	v0,24(s8)
+     c54:	00000000 	nop
+     c58:	8c430000 	lw	v1,0(v0)
+     c5c:	24020002 	li	v0,2
+     c60:	1462000d 	bne	v1,v0,c98 <InterruptAck+0xa4>
+     c64:	00000000 	nop
+    {
+        out32(DMA_BASE + DMA_CR1, Channel->ControlRegVal | CHANNEL_IR_ACK);
+     c68:	8fc20018 	lw	v0,24(s8)
+     c6c:	00000000 	nop
+     c70:	8c420020 	lw	v0,32(v0)
+     c74:	00000000 	nop
+     c78:	34420200 	ori	v0,v0,0x200
+     c7c:	00402825 	move	a1,v0
+     c80:	3c020003 	lui	v0,0x3
+     c84:	3444001c 	ori	a0,v0,0x1c
+     c88:	0c00012b 	jal	4ac <out32>
+     c8c:	00000000 	nop
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+}
+     c90:	10000023 	b	d20 <InterruptAck+0x12c>
+     c94:	00000000 	nop
+    }
+    else if (CHANNEL_1 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR1, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_2 == Channel->ChannelNumber)
+     c98:	8fc20018 	lw	v0,24(s8)
+     c9c:	00000000 	nop
+     ca0:	8c430000 	lw	v1,0(v0)
+     ca4:	24020004 	li	v0,4
+     ca8:	1462000d 	bne	v1,v0,ce0 <InterruptAck+0xec>
+     cac:	00000000 	nop
+    {
+        out32(DMA_BASE + DMA_CR2, Channel->ControlRegVal | CHANNEL_IR_ACK);
+     cb0:	8fc20018 	lw	v0,24(s8)
+     cb4:	00000000 	nop
+     cb8:	8c420020 	lw	v0,32(v0)
+     cbc:	00000000 	nop
+     cc0:	34420200 	ori	v0,v0,0x200
+     cc4:	00402825 	move	a1,v0
+     cc8:	3c020003 	lui	v0,0x3
+     ccc:	3444002c 	ori	a0,v0,0x2c
+     cd0:	0c00012b 	jal	4ac <out32>
+     cd4:	00000000 	nop
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+}
+     cd8:	10000011 	b	d20 <InterruptAck+0x12c>
+     cdc:	00000000 	nop
+    }
+    else if (CHANNEL_2 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR2, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+     ce0:	8fc20018 	lw	v0,24(s8)
+     ce4:	00000000 	nop
+     ce8:	8c430000 	lw	v1,0(v0)
+     cec:	24020008 	li	v0,8
+     cf0:	1462000b 	bne	v1,v0,d20 <InterruptAck+0x12c>
+     cf4:	00000000 	nop
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_IR_ACK);
+     cf8:	8fc20018 	lw	v0,24(s8)
+     cfc:	00000000 	nop
+     d00:	8c420020 	lw	v0,32(v0)
+     d04:	00000000 	nop
+     d08:	34420200 	ori	v0,v0,0x200
+     d0c:	00402825 	move	a1,v0
+     d10:	3c020003 	lui	v0,0x3
+     d14:	3444003c 	ori	a0,v0,0x3c
+     d18:	0c00012b 	jal	4ac <out32>
+     d1c:	00000000 	nop
+    }
+}
+     d20:	00000000 	nop
+     d24:	03c0e825 	move	sp,s8
+     d28:	8fbf0014 	lw	ra,20(sp)
+     d2c:	8fbe0010 	lw	s8,16(sp)
+     d30:	27bd0018 	addiu	sp,sp,24
+     d34:	03e00008 	jr	ra
+     d38:	00000000 	nop
 void __attribute__ ((weak)) outbyte(int c)
 {
-     990:	27bdfff8 	addiu	sp,sp,-8
-     994:	afbe0004 	sw	s8,4(sp)
-     998:	03a0f025 	move	s8,sp
-     99c:	afc40008 	sw	a0,8(s8)
+     d3c:	27bdfff8 	addiu	sp,sp,-8
+     d40:	afbe0004 	sw	s8,4(sp)
+     d44:	03a0f025 	move	s8,sp
+     d48:	afc40008 	sw	a0,8(s8)
 	return;
-     9a0:	00000000 	nop
+     d4c:	00000000 	nop
 }
-     9a4:	03c0e825 	move	sp,s8
-     9a8:	8fbe0004 	lw	s8,4(sp)
-     9ac:	27bd0008 	addiu	sp,sp,8
-     9b0:	03e00008 	jr	ra
-     9b4:	00000000 	nop
+     d50:	03c0e825 	move	sp,s8
+     d54:	8fbe0004 	lw	s8,4(sp)
+     d58:	27bd0008 	addiu	sp,sp,8
+     d5c:	03e00008 	jr	ra
+     d60:	00000000 	nop
 
 int __attribute__ ((weak)) inbyte()
 {
-     9b8:	27bdfff8 	addiu	sp,sp,-8
-     9bc:	afbe0004 	sw	s8,4(sp)
-     9c0:	03a0f025 	move	s8,sp
+     d64:	27bdfff8 	addiu	sp,sp,-8
+     d68:	afbe0004 	sw	s8,4(sp)
+     d6c:	03a0f025 	move	s8,sp
 	return -1;
-     9c4:	2402ffff 	li	v0,-1
+     d70:	2402ffff 	li	v0,-1
 }
-     9c8:	03c0e825 	move	sp,s8
-     9cc:	8fbe0004 	lw	s8,4(sp)
-     9d0:	27bd0008 	addiu	sp,sp,8
-     9d4:	03e00008 	jr	ra
-     9d8:	00000000 	nop
+     d74:	03c0e825 	move	sp,s8
+     d78:	8fbe0004 	lw	s8,4(sp)
+     d7c:	27bd0008 	addiu	sp,sp,8
+     d80:	03e00008 	jr	ra
+     d84:	00000000 	nop
 
-000009dc <IP2_Handler>:
-
-char Receiver_FIFO_1[SATZ_LENGTH];
-char gesamtReceived[PHRASE_LENGHT];
+00000d88 <IP2_Handler>:
+Config_Channel_Info* volatile Channel_1_p;
+Config_Channel_Info* volatile Channel_2_p;
+volatile char*volatile auxText;
 
 void DMA_Handler()
 {
-     9dc:	27bdffd0 	addiu	sp,sp,-48
-     9e0:	afbf002c 	sw	ra,44(sp)
-     9e4:	afbe0028 	sw	s8,40(sp)
-     9e8:	03a0f025 	move	s8,sp
+     d88:	27bdffe0 	addiu	sp,sp,-32
+     d8c:	afbf001c 	sw	ra,28(sp)
+     d90:	afbe0018 	sw	s8,24(sp)
+     d94:	03a0f025 	move	s8,sp
 	uint32_t status = in32(DMA_BASE + DMA_SR);
-     9ec:	3c020003 	lui	v0,0x3
-     9f0:	34440020 	ori	a0,v0,0x20
-     9f4:	0c00013a 	jal	4e8 <in32>
-     9f8:	00000000 	nop
-     9fc:	afc20020 	sw	v0,32(s8)
-
-    if(status & DMA_CHA0_IRQ)
-     a00:	8fc30020 	lw	v1,32(s8)
-     a04:	3c020001 	lui	v0,0x1
-     a08:	00621024 	and	v0,v1,v0
-     a0c:	10400037 	beqz	v0,aec <IP2_Handler+0x110>
-     a10:	00000000 	nop
-    {
-    		if((status & CHANNEL_2) == 0)
-     a14:	8fc20020 	lw	v0,32(s8)
-     a18:	00000000 	nop
-     a1c:	30420002 	andi	v0,v0,0x2
-     a20:	1440002a 	bnez	v0,acc <IP2_Handler+0xf0>
-     a24:	00000000 	nop
-    		{
-    			DMA_init(CHANNEL_2, (uint32_t)Receiver_FIFO_1,(uint32_t)(gesamtReceived + offset), SATZ_LENGTH, SPEI_SPEI, FALSE, TRUE, FALSE);
-     a28:	3c020000 	lui	v0,0x0
-     a2c:	24444204 	addiu	a0,v0,16900
-     a30:	8f8302c0 	lw	v1,704(gp)
-     a34:	3c020000 	lui	v0,0x0
-     a38:	24424004 	addiu	v0,v0,16388
-     a3c:	00621021 	addu	v0,v1,v0
-     a40:	00401825 	move	v1,v0
-     a44:	afa0001c 	sw	zero,28(sp)
-     a48:	24020001 	li	v0,1
-     a4c:	afa20018 	sw	v0,24(sp)
-     a50:	afa00014 	sw	zero,20(sp)
-     a54:	afa00010 	sw	zero,16(sp)
-     a58:	24070040 	li	a3,64
-     a5c:	00603025 	move	a2,v1
-     a60:	00802825 	move	a1,a0
-     a64:	24040002 	li	a0,2
-     a68:	0c0001e4 	jal	790 <DMA_init>
-     a6c:	00000000 	nop
-    			ChannelEnable(CHANNEL_2);
-     a70:	24040002 	li	a0,2
-     a74:	0c00023a 	jal	8e8 <ChannelEnable>
-     a78:	00000000 	nop
-    			out32(DMA_BASE + DMA_CR0, channel_1_config | CHANNEL_IR_ACK);
-     a7c:	8f8202b8 	lw	v0,696(gp)
-     a80:	00000000 	nop
-     a84:	34420200 	ori	v0,v0,0x200
-     a88:	00402825 	move	a1,v0
-     a8c:	3c020003 	lui	v0,0x3
-     a90:	3444000c 	ori	a0,v0,0xc
-     a94:	0c00012b 	jal	4ac <out32>
-     a98:	00000000 	nop
-    			zumSpeicher = TRUE;
-     a9c:	24020001 	li	v0,1
-     aa0:	af8202bc 	sw	v0,700(gp)
-    			if(offset < PHRASE_LENGHT)
-     aa4:	8f8202c0 	lw	v0,704(gp)
-     aa8:	00000000 	nop
-     aac:	2c420200 	sltiu	v0,v0,512
-     ab0:	1040000e 	beqz	v0,aec <IP2_Handler+0x110>
-     ab4:	00000000 	nop
-    			{
-    				ChannelEnable(CHANNEL_1);
-     ab8:	24040001 	li	a0,1
-     abc:	0c00023a 	jal	8e8 <ChannelEnable>
-     ac0:	00000000 	nop
-     ac4:	10000009 	b	aec <IP2_Handler+0x110>
-     ac8:	00000000 	nop
-    			}
-
-    		}
-    		else
-    		{
-    			out32(DMA_BASE + DMA_CR0, channel_1_config | CHANNEL_IR_ACK);
-     acc:	8f8202b8 	lw	v0,696(gp)
-     ad0:	00000000 	nop
-     ad4:	34420200 	ori	v0,v0,0x200
-     ad8:	00402825 	move	a1,v0
-     adc:	3c020003 	lui	v0,0x3
-     ae0:	3444000c 	ori	a0,v0,0xc
-     ae4:	0c00012b 	jal	4ac <out32>
-     ae8:	00000000 	nop
-    		}
-
-    }
-
-    if(status & DMA_CHA1_IRQ)
-     aec:	8fc30020 	lw	v1,32(s8)
-     af0:	3c020002 	lui	v0,0x2
-     af4:	00621024 	and	v0,v1,v0
-     af8:	10400058 	beqz	v0,c5c <IP2_Handler+0x280>
-     afc:	00000000 	nop
-    {
-
-    	if(zumSpeicher == FALSE)
-     b00:	8f8202bc 	lw	v0,700(gp)
-     b04:	00000000 	nop
-     b08:	14400031 	bnez	v0,bd0 <IP2_Handler+0x1f4>
-     b0c:	00000000 	nop
-    	{
-    		out32(DMA_BASE + DMA_CR1, channel_2_config | CHANNEL_IR_ACK);
-     b10:	8f8202b4 	lw	v0,692(gp)
-     b14:	00000000 	nop
-     b18:	34420200 	ori	v0,v0,0x200
-     b1c:	00402825 	move	a1,v0
-     b20:	3c020003 	lui	v0,0x3
-     b24:	3444001c 	ori	a0,v0,0x1c
-     b28:	0c00012b 	jal	4ac <out32>
-     b2c:	00000000 	nop
-
-        	if((status & CHANNEL_2) == 0 && offset < PHRASE_LENGHT)
-     b30:	8fc20020 	lw	v0,32(s8)
-     b34:	00000000 	nop
-     b38:	30420002 	andi	v0,v0,0x2
-     b3c:	14400047 	bnez	v0,c5c <IP2_Handler+0x280>
-     b40:	00000000 	nop
-     b44:	8f8202c0 	lw	v0,704(gp)
-     b48:	00000000 	nop
-     b4c:	2c420200 	sltiu	v0,v0,512
-     b50:	10400042 	beqz	v0,c5c <IP2_Handler+0x280>
-     b54:	00000000 	nop
-        	{
-        		DMA_init(CHANNEL_2, (uint32_t)Receiver_FIFO_1,(uint32_t)gesamtReceived, SATZ_LENGTH, SPEI_SPEI, FALSE, TRUE, FALSE);
-     b58:	3c020000 	lui	v0,0x0
-     b5c:	24434204 	addiu	v1,v0,16900
-     b60:	3c020000 	lui	v0,0x0
-     b64:	24444004 	addiu	a0,v0,16388
-     b68:	afa0001c 	sw	zero,28(sp)
-     b6c:	24020001 	li	v0,1
-     b70:	afa20018 	sw	v0,24(sp)
-     b74:	afa00014 	sw	zero,20(sp)
-     b78:	afa00010 	sw	zero,16(sp)
-     b7c:	24070040 	li	a3,64
-     b80:	00803025 	move	a2,a0
-     b84:	00602825 	move	a1,v1
-     b88:	24040002 	li	a0,2
-     b8c:	0c0001e4 	jal	790 <DMA_init>
-     b90:	00000000 	nop
-        		ChannelEnable(CHANNEL_2);
-     b94:	24040002 	li	a0,2
-     b98:	0c00023a 	jal	8e8 <ChannelEnable>
-     b9c:	00000000 	nop
-        		zumSpeicher = TRUE;
-     ba0:	24020001 	li	v0,1
-     ba4:	af8202bc 	sw	v0,700(gp)
-    			if(offset < PHRASE_LENGHT)
-     ba8:	8f8202c0 	lw	v0,704(gp)
-     bac:	00000000 	nop
-     bb0:	2c420200 	sltiu	v0,v0,512
-     bb4:	10400029 	beqz	v0,c5c <IP2_Handler+0x280>
-     bb8:	00000000 	nop
-    			{
-    				ChannelEnable(CHANNEL_1);
-     bbc:	24040001 	li	a0,1
-     bc0:	0c00023a 	jal	8e8 <ChannelEnable>
-     bc4:	00000000 	nop
-    	}
-
-
-    }
-
-}
-     bc8:	10000024 	b	c5c <IP2_Handler+0x280>
-     bcc:	00000000 	nop
-    			}
-        	}
-    	}
-    	else
-    	{
-    		out32(DMA_BASE + DMA_CR1, channel_2_config | CHANNEL_IR_ACK);
-     bd0:	8f8202b4 	lw	v0,692(gp)
-     bd4:	00000000 	nop
-     bd8:	34420200 	ori	v0,v0,0x200
-     bdc:	00402825 	move	a1,v0
-     be0:	3c020003 	lui	v0,0x3
-     be4:	3444001c 	ori	a0,v0,0x1c
-     be8:	0c00012b 	jal	4ac <out32>
-     bec:	00000000 	nop
-    		DMA_init(CHANNEL_2, (uint32_t)(gesamtReceived + offset),UART_BASE + UART_TDR, SATZ_LENGTH, SPEI_PERI, TRUE, TRUE, TRUE);
-     bf0:	8f8302c0 	lw	v1,704(gp)
-     bf4:	3c020000 	lui	v0,0x0
-     bf8:	24424004 	addiu	v0,v0,16388
-     bfc:	00621021 	addu	v0,v1,v0
-     c00:	00401825 	move	v1,v0
-     c04:	24020001 	li	v0,1
-     c08:	afa2001c 	sw	v0,28(sp)
-     c0c:	24020001 	li	v0,1
-     c10:	afa20018 	sw	v0,24(sp)
-     c14:	24020001 	li	v0,1
-     c18:	afa20014 	sw	v0,20(sp)
-     c1c:	24020002 	li	v0,2
-     c20:	afa20010 	sw	v0,16(sp)
-     c24:	24070040 	li	a3,64
-     c28:	34068200 	li	a2,0x8200
-     c2c:	00602825 	move	a1,v1
-     c30:	24040002 	li	a0,2
-     c34:	0c0001e4 	jal	790 <DMA_init>
-     c38:	00000000 	nop
-    		ChannelEnable(CHANNEL_2);
-     c3c:	24040002 	li	a0,2
-     c40:	0c00023a 	jal	8e8 <ChannelEnable>
-     c44:	00000000 	nop
-    		offset = offset + SATZ_LENGTH;
-     c48:	8f8202c0 	lw	v0,704(gp)
-     c4c:	00000000 	nop
-     c50:	24420040 	addiu	v0,v0,64
-     c54:	af8202c0 	sw	v0,704(gp)
-    		zumSpeicher = FALSE;
-     c58:	af8002bc 	sw	zero,700(gp)
-    	}
-
-
-    }
-
-}
-     c5c:	00000000 	nop
-     c60:	03c0e825 	move	sp,s8
-     c64:	8fbf002c 	lw	ra,44(sp)
-     c68:	8fbe0028 	lw	s8,40(sp)
-     c6c:	27bd0030 	addiu	sp,sp,48
-     c70:	03e00008 	jr	ra
-     c74:	00000000 	nop
-
-00000c78 <main>:
-
-int main() {
-     c78:	27bdffd8 	addiu	sp,sp,-40
-     c7c:	afbf0024 	sw	ra,36(sp)
-     c80:	afbe0020 	sw	s8,32(sp)
-     c84:	03a0f025 	move	s8,sp
-
-	UART_Init(UART_BASE, 115200, 8, PARITY_NONE, STOPPBITS_10);
-     c88:	afa00010 	sw	zero,16(sp)
-     c8c:	00003825 	move	a3,zero
-     c90:	24060008 	li	a2,8
-     c94:	3c020001 	lui	v0,0x1
-     c98:	3445c200 	ori	a1,v0,0xc200
-     c9c:	34048200 	li	a0,0x8200
-     ca0:	0c0005fb 	jal	17ec <UART_Init>
-     ca4:	00000000 	nop
-	//uart_config = in32(UART_BASE + UART_CR);
-	out32(UART_BASE + UART_CR, in32(UART_BASE + UART_CR) | UART_TX_IRQ);
-     ca8:	34048208 	li	a0,0x8208
-     cac:	0c00013a 	jal	4e8 <in32>
-     cb0:	00000000 	nop
-     cb4:	00401825 	move	v1,v0
-     cb8:	3c020200 	lui	v0,0x200
-     cbc:	00621025 	or	v0,v1,v0
-     cc0:	00402825 	move	a1,v0
-     cc4:	34048208 	li	a0,0x8208
-     cc8:	0c00012b 	jal	4ac <out32>
-     ccc:	00000000 	nop
-
-	DMA_init(CHANNEL_1,UART_BASE + UART_RDR, (uint32_t)Receiver_FIFO_1, SATZ_LENGTH, PERI_SPEI, TRUE, TRUE, TRUE);
-     cd0:	3c020000 	lui	v0,0x0
-     cd4:	24434204 	addiu	v1,v0,16900
-     cd8:	24020001 	li	v0,1
-     cdc:	afa2001c 	sw	v0,28(sp)
-     ce0:	24020001 	li	v0,1
-     ce4:	afa20018 	sw	v0,24(sp)
-     ce8:	24020001 	li	v0,1
-     cec:	afa20014 	sw	v0,20(sp)
-     cf0:	24020001 	li	v0,1
-     cf4:	afa20010 	sw	v0,16(sp)
-     cf8:	24070040 	li	a3,64
-     cfc:	00603025 	move	a2,v1
-     d00:	34058204 	li	a1,0x8204
-     d04:	24040001 	li	a0,1
-     d08:	0c0001e4 	jal	790 <DMA_init>
-     d0c:	00000000 	nop
-
-	offset = 0;
-     d10:	af8002c0 	sw	zero,704(gp)
-	channel_1_config = in32(DMA_BASE + DMA_CR0);
-     d14:	3c020003 	lui	v0,0x3
-     d18:	3444000c 	ori	a0,v0,0xc
-     d1c:	0c00013a 	jal	4e8 <in32>
-     d20:	00000000 	nop
-     d24:	af8202b8 	sw	v0,696(gp)
-	channel_2_config = in32(DMA_BASE + DMA_CR1);
-     d28:	3c020003 	lui	v0,0x3
-     d2c:	3444001c 	ori	a0,v0,0x1c
-     d30:	0c00013a 	jal	4e8 <in32>
-     d34:	00000000 	nop
-     d38:	af8202b4 	sw	v0,692(gp)
-
-	ChannelEnable(CHANNEL_1);
-     d3c:	24040001 	li	a0,1
-     d40:	0c00023a 	jal	8e8 <ChannelEnable>
-     d44:	00000000 	nop
-	zumSpeicher = TRUE;
-     d48:	24020001 	li	v0,1
-     d4c:	af8202bc 	sw	v0,700(gp)
-		//while(in32(DMA_BASE + DMA_SR) & CHANNEL_2);
-
-		//out32(DMA_BASE + DMA_CR0, 0);
-		//out32(DMA_BASE + DMA_CR1, 0);
-
-	}
-     d50:	1000ffff 	b	d50 <main+0xd8>
-     d54:	00000000 	nop
-
-00000d58 <memcpy>:
-
-#include <string.h>
-#include <stddef.h> // Include for size_t definition
-
-void *memcpy(void *dest, const void *src, size_t count)
-{
-     d58:	27bdfff0 	addiu	sp,sp,-16
-     d5c:	afbe000c 	sw	s8,12(sp)
-     d60:	03a0f025 	move	s8,sp
-     d64:	afc40010 	sw	a0,16(s8)
-     d68:	afc50014 	sw	a1,20(s8)
-     d6c:	afc60018 	sw	a2,24(s8)
-	char *dst8 = (char *)dest;
-     d70:	8fc20010 	lw	v0,16(s8)
-     d74:	00000000 	nop
-     d78:	afc20000 	sw	v0,0(s8)
-	char *src8 = (char *)src;
-     d7c:	8fc20014 	lw	v0,20(s8)
-     d80:	00000000 	nop
-     d84:	afc20004 	sw	v0,4(s8)
-
-	while (count--) {
-     d88:	1000000c 	b	dbc <memcpy+0x64>
-     d8c:	00000000 	nop
-		*dst8++ = *src8++;
-     d90:	8fc20000 	lw	v0,0(s8)
-     d94:	00000000 	nop
-     d98:	24430001 	addiu	v1,v0,1
-     d9c:	afc30000 	sw	v1,0(s8)
-     da0:	8fc30004 	lw	v1,4(s8)
+     d98:	3c020003 	lui	v0,0x3
+     d9c:	34440040 	ori	a0,v0,0x40
+     da0:	0c00013a 	jal	4e8 <in32>
      da4:	00000000 	nop
-     da8:	24640001 	addiu	a0,v1,1
-     dac:	afc40004 	sw	a0,4(s8)
-     db0:	90630000 	lbu	v1,0(v1)
-     db4:	00000000 	nop
-     db8:	a0430000 	sb	v1,0(v0)
+     da8:	afc20010 	sw	v0,16(s8)
+	static uint32_t offset_K1 = 0;
+	static uint32_t offset_K2 = 0;
+
+	if(status & DMA_CHA0_IRQ)
+     dac:	8fc30010 	lw	v1,16(s8)
+     db0:	3c020001 	lui	v0,0x1
+     db4:	00621024 	and	v0,v1,v0
+     db8:	10400026 	beqz	v0,e54 <IP2_Handler+0xcc>
+     dbc:	00000000 	nop
+	{
+		//Zieladresse von Kanal 1 festlegen
+		out32(DMA_BASE+ DMA_DESTR1, (uint32_t)(auxText + offset_K1));
+     dc0:	8f830088 	lw	v1,136(gp)
+     dc4:	8f820000 	lw	v0,0(gp)
+     dc8:	00000000 	nop
+     dcc:	00621021 	addu	v0,v1,v0
+     dd0:	00402825 	move	a1,v0
+     dd4:	3c020003 	lui	v0,0x3
+     dd8:	34440014 	ori	a0,v0,0x14
+     ddc:	0c00012b 	jal	4ac <out32>
+     de0:	00000000 	nop
+		//Kanal 1 aktivieren
+		ChannelEnable(Channel_1_p);
+     de4:	8f820080 	lw	v0,128(gp)
+     de8:	00000000 	nop
+     dec:	00402025 	move	a0,v0
+     df0:	0c0002ab 	jal	aac <ChannelEnable>
+     df4:	00000000 	nop
+
+		//Interrupt Kanal 0 bestaetigen
+		InterruptAck(Channel_0_p);
+     df8:	8f820084 	lw	v0,132(gp)
+     dfc:	00000000 	nop
+     e00:	00402025 	move	a0,v0
+     e04:	0c0002fd 	jal	bf4 <InterruptAck>
+     e08:	00000000 	nop
+		//Kanal 0 aktivieren
+		ChannelEnable(Channel_0_p);
+     e0c:	8f820084 	lw	v0,132(gp)
+     e10:	00000000 	nop
+     e14:	00402025 	move	a0,v0
+     e18:	0c0002ab 	jal	aac <ChannelEnable>
+     e1c:	00000000 	nop
+
+		if((offset_K1 + SATZ_LENGHT) >= TEXT_LENGHT)
+     e20:	8f820000 	lw	v0,0(gp)
+     e24:	00000000 	nop
+     e28:	24420040 	addiu	v0,v0,64
+     e2c:	2c420400 	sltiu	v0,v0,1024
+     e30:	14400004 	bnez	v0,e44 <IP2_Handler+0xbc>
+     e34:	00000000 	nop
+			offset_K1 = 0;
+     e38:	af800000 	sw	zero,0(gp)
+     e3c:	10000005 	b	e54 <IP2_Handler+0xcc>
+     e40:	00000000 	nop
+		else
+			offset_K1 = offset_K1 + SATZ_LENGHT;
+     e44:	8f820000 	lw	v0,0(gp)
+     e48:	00000000 	nop
+     e4c:	24420040 	addiu	v0,v0,64
+     e50:	af820000 	sw	v0,0(gp)
+	}
+
+	if(status & DMA_CHA1_IRQ)
+     e54:	8fc30010 	lw	v1,16(s8)
+     e58:	3c020002 	lui	v0,0x2
+     e5c:	00621024 	and	v0,v1,v0
+     e60:	10400021 	beqz	v0,ee8 <IP2_Handler+0x160>
+     e64:	00000000 	nop
+	{
+		//Interrupt quittieren
+		InterruptAck(Channel_1_p);
+     e68:	8f820080 	lw	v0,128(gp)
+     e6c:	00000000 	nop
+     e70:	00402025 	move	a0,v0
+     e74:	0c0002fd 	jal	bf4 <InterruptAck>
+     e78:	00000000 	nop
+
+		//Quelladresse von Kanal 2 festlegen
+		out32(DMA_BASE+ DMA_SAR2, (uint32_t)(auxText + offset_K2));
+     e7c:	8f830088 	lw	v1,136(gp)
+     e80:	8f820004 	lw	v0,4(gp)
+     e84:	00000000 	nop
+     e88:	00621021 	addu	v0,v1,v0
+     e8c:	00402825 	move	a1,v0
+     e90:	3c020003 	lui	v0,0x3
+     e94:	34440020 	ori	a0,v0,0x20
+     e98:	0c00012b 	jal	4ac <out32>
+     e9c:	00000000 	nop
+		//Kanal 2 starten
+		ChannelEnable(Channel_2_p);
+     ea0:	8f82007c 	lw	v0,124(gp)
+     ea4:	00000000 	nop
+     ea8:	00402025 	move	a0,v0
+     eac:	0c0002ab 	jal	aac <ChannelEnable>
+     eb0:	00000000 	nop
+
+		if((offset_K2 + SATZ_LENGHT) >= TEXT_LENGHT)
+     eb4:	8f820004 	lw	v0,4(gp)
+     eb8:	00000000 	nop
+     ebc:	24420040 	addiu	v0,v0,64
+     ec0:	2c420400 	sltiu	v0,v0,1024
+     ec4:	14400004 	bnez	v0,ed8 <IP2_Handler+0x150>
+     ec8:	00000000 	nop
+			offset_K2 = 0;
+     ecc:	af800004 	sw	zero,4(gp)
+     ed0:	10000005 	b	ee8 <IP2_Handler+0x160>
+     ed4:	00000000 	nop
+		else
+		offset_K2 = offset_K2 + SATZ_LENGHT;
+     ed8:	8f820004 	lw	v0,4(gp)
+     edc:	00000000 	nop
+     ee0:	24420040 	addiu	v0,v0,64
+     ee4:	af820004 	sw	v0,4(gp)
+	}
+
+	if(status & DMA_CHA2_IRQ)
+     ee8:	8fc30010 	lw	v1,16(s8)
+     eec:	3c020004 	lui	v0,0x4
+     ef0:	00621024 	and	v0,v1,v0
+     ef4:	10400006 	beqz	v0,f10 <IP2_Handler+0x188>
+     ef8:	00000000 	nop
+	{
+		//Interrupt quittieren
+		InterruptAck(Channel_2_p);
+     efc:	8f82007c 	lw	v0,124(gp)
+     f00:	00000000 	nop
+     f04:	00402025 	move	a0,v0
+     f08:	0c0002fd 	jal	bf4 <InterruptAck>
+     f0c:	00000000 	nop
+	}
+}
+     f10:	00000000 	nop
+     f14:	03c0e825 	move	sp,s8
+     f18:	8fbf001c 	lw	ra,28(sp)
+     f1c:	8fbe0018 	lw	s8,24(sp)
+     f20:	27bd0020 	addiu	sp,sp,32
+     f24:	03e00008 	jr	ra
+     f28:	00000000 	nop
+
+00000f2c <main>:
+
+int main(){
+     f2c:	27bdfb30 	addiu	sp,sp,-1232
+     f30:	afbf04cc 	sw	ra,1228(sp)
+     f34:	afbe04c8 	sw	s8,1224(sp)
+     f38:	03a0f025 	move	s8,sp
+	char Text[TEXT_LENGHT];
+
+	//
+	//UART initialisieren
+	//
+    UART_Init(UART_BASE, 115200, 8, PARITY_NONE, STOPPBITS_10);
+     f3c:	afa00010 	sw	zero,16(sp)
+     f40:	00003825 	move	a3,zero
+     f44:	24060008 	li	a2,8
+     f48:	3c020001 	lui	v0,0x1
+     f4c:	3445c200 	ori	a1,v0,0xc200
+     f50:	34048200 	li	a0,0x8200
+     f54:	0c0006f4 	jal	1bd0 <UART_Init>
+     f58:	00000000 	nop
+
+    Config_Channel_Info Channel_0_Config = {CHANNEL_0,UART_BASE + UART_RDR,(uint32_t)ReceiverFifo,SATZ_LENGHT,PERI_SPEI,TRUE,TRUE,TRUE};
+     f5c:	afc0045c 	sw	zero,1116(s8)
+     f60:	afc00460 	sw	zero,1120(s8)
+     f64:	afc00464 	sw	zero,1124(s8)
+     f68:	afc00468 	sw	zero,1128(s8)
+     f6c:	afc0046c 	sw	zero,1132(s8)
+     f70:	afc00470 	sw	zero,1136(s8)
+     f74:	afc00474 	sw	zero,1140(s8)
+     f78:	afc00478 	sw	zero,1144(s8)
+     f7c:	afc0047c 	sw	zero,1148(s8)
+     f80:	24020001 	li	v0,1
+     f84:	afc2045c 	sw	v0,1116(s8)
+     f88:	34028204 	li	v0,0x8204
+     f8c:	afc20460 	sw	v0,1120(s8)
+     f90:	27c2001c 	addiu	v0,s8,28
+     f94:	afc20464 	sw	v0,1124(s8)
+     f98:	24020040 	li	v0,64
+     f9c:	afc20468 	sw	v0,1128(s8)
+     fa0:	24020001 	li	v0,1
+     fa4:	afc2046c 	sw	v0,1132(s8)
+     fa8:	24020001 	li	v0,1
+     fac:	afc20470 	sw	v0,1136(s8)
+     fb0:	24020001 	li	v0,1
+     fb4:	afc20474 	sw	v0,1140(s8)
+     fb8:	24020001 	li	v0,1
+     fbc:	afc20478 	sw	v0,1144(s8)
+    Channel_0_p = &Channel_0_Config;
+     fc0:	27c2045c 	addiu	v0,s8,1116
+     fc4:	af820084 	sw	v0,132(gp)
+
+    //
+    //Zieladresse noch nicht definiert (dynamisch)
+    //
+    Config_Channel_Info Channel_1_Config = {CHANNEL_1,(uint32_t)ReceiverFifo,0,SATZ_LENGHT,SPEI_SPEI,FALSE,TRUE,FALSE};
+     fc8:	afc00480 	sw	zero,1152(s8)
+     fcc:	afc00484 	sw	zero,1156(s8)
+     fd0:	afc00488 	sw	zero,1160(s8)
+     fd4:	afc0048c 	sw	zero,1164(s8)
+     fd8:	afc00490 	sw	zero,1168(s8)
+     fdc:	afc00494 	sw	zero,1172(s8)
+     fe0:	afc00498 	sw	zero,1176(s8)
+     fe4:	afc0049c 	sw	zero,1180(s8)
+     fe8:	afc004a0 	sw	zero,1184(s8)
+     fec:	24020002 	li	v0,2
+     ff0:	afc20480 	sw	v0,1152(s8)
+     ff4:	27c2001c 	addiu	v0,s8,28
+     ff8:	afc20484 	sw	v0,1156(s8)
+     ffc:	24020040 	li	v0,64
+    1000:	afc2048c 	sw	v0,1164(s8)
+    1004:	24020001 	li	v0,1
+    1008:	afc20498 	sw	v0,1176(s8)
+    Channel_1_p = &Channel_1_Config;
+    100c:	27c20480 	addiu	v0,s8,1152
+    1010:	af820080 	sw	v0,128(gp)
+
+    //
+    //Quelladresse noch nicht definiert (dynamisch)
+    //
+    Config_Channel_Info Channel_2_Config = {CHANNEL_2,0,UART_BASE + UART_TDR,SATZ_LENGHT,SPEI_PERI,TRUE,TRUE,TRUE};
+    1014:	afc004a4 	sw	zero,1188(s8)
+    1018:	afc004a8 	sw	zero,1192(s8)
+    101c:	afc004ac 	sw	zero,1196(s8)
+    1020:	afc004b0 	sw	zero,1200(s8)
+    1024:	afc004b4 	sw	zero,1204(s8)
+    1028:	afc004b8 	sw	zero,1208(s8)
+    102c:	afc004bc 	sw	zero,1212(s8)
+    1030:	afc004c0 	sw	zero,1216(s8)
+    1034:	afc004c4 	sw	zero,1220(s8)
+    1038:	24020004 	li	v0,4
+    103c:	afc204a4 	sw	v0,1188(s8)
+    1040:	34028200 	li	v0,0x8200
+    1044:	afc204ac 	sw	v0,1196(s8)
+    1048:	24020040 	li	v0,64
+    104c:	afc204b0 	sw	v0,1200(s8)
+    1050:	24020002 	li	v0,2
+    1054:	afc204b4 	sw	v0,1204(s8)
+    1058:	24020001 	li	v0,1
+    105c:	afc204b8 	sw	v0,1208(s8)
+    1060:	24020001 	li	v0,1
+    1064:	afc204bc 	sw	v0,1212(s8)
+    1068:	24020001 	li	v0,1
+    106c:	afc204c0 	sw	v0,1216(s8)
+    Channel_2_p = &Channel_2_Config;
+    1070:	27c204a4 	addiu	v0,s8,1188
+    1074:	af82007c 	sw	v0,124(gp)
+
+    //
+    //Kanaele einstellen
+    //
+    DMA_init(&Channel_0_Config);
+    1078:	27c2045c 	addiu	v0,s8,1116
+    107c:	00402025 	move	a0,v0
+    1080:	0c0001e4 	jal	790 <DMA_init>
+    1084:	00000000 	nop
+    DMA_init(&Channel_1_Config);
+    1088:	27c20480 	addiu	v0,s8,1152
+    108c:	00402025 	move	a0,v0
+    1090:	0c0001e4 	jal	790 <DMA_init>
+    1094:	00000000 	nop
+    DMA_init(&Channel_2_Config);
+    1098:	27c204a4 	addiu	v0,s8,1188
+    109c:	00402025 	move	a0,v0
+    10a0:	0c0001e4 	jal	790 <DMA_init>
+    10a4:	00000000 	nop
+
+    //auxText ist ein globaler Zeiger, er ist noetig da die Zieladdrese vom Kanal 1 und die Quelladdrese vom Kanal 2
+    //sich immer aendern wird und in der ISR neu angepasst werden muessen
+    auxText = Text;
+    10a8:	27c2005c 	addiu	v0,s8,92
+    10ac:	af820088 	sw	v0,136(gp)
+
+    //
+	//TX Interrupt vom UART freigeben
+    //
+	out32(UART_BASE + UART_CR, in32(UART_BASE + UART_CR) | UART_TX_IRQ );
+    10b0:	34048208 	li	a0,0x8208
+    10b4:	0c00013a 	jal	4e8 <in32>
+    10b8:	00000000 	nop
+    10bc:	00401825 	move	v1,v0
+    10c0:	3c020200 	lui	v0,0x200
+    10c4:	00621025 	or	v0,v1,v0
+    10c8:	00402825 	move	a1,v0
+    10cc:	34048208 	li	a0,0x8208
+    10d0:	0c00012b 	jal	4ac <out32>
+    10d4:	00000000 	nop
+
+	//Zur spaeteren Verwendung in der ISR, damit sparen wir ein Lesezugriff
+	//im Wishbone-Bus (beim Lesen vom Kontroll-Register)
+	Channel_0_Config.ControlRegVal = in32(DMA_BASE + DMA_CR0);
+    10d8:	3c020003 	lui	v0,0x3
+    10dc:	3444000c 	ori	a0,v0,0xc
+    10e0:	0c00013a 	jal	4e8 <in32>
+    10e4:	00000000 	nop
+    10e8:	afc2047c 	sw	v0,1148(s8)
+	Channel_1_Config.ControlRegVal = in32(DMA_BASE + DMA_CR1);
+    10ec:	3c020003 	lui	v0,0x3
+    10f0:	3444001c 	ori	a0,v0,0x1c
+    10f4:	0c00013a 	jal	4e8 <in32>
+    10f8:	00000000 	nop
+    10fc:	afc204a0 	sw	v0,1184(s8)
+	Channel_2_Config.ControlRegVal = in32(DMA_BASE + DMA_CR2);
+    1100:	3c020003 	lui	v0,0x3
+    1104:	3444002c 	ori	a0,v0,0x2c
+    1108:	0c00013a 	jal	4e8 <in32>
+    110c:	00000000 	nop
+    1110:	afc204c4 	sw	v0,1220(s8)
+
+    //
+    //Kanal 0 starten
+    //
+    ChannelEnable(&Channel_0_Config);
+    1114:	27c2045c 	addiu	v0,s8,1116
+    1118:	00402025 	move	a0,v0
+    111c:	0c0002ab 	jal	aac <ChannelEnable>
+    1120:	00000000 	nop
+
+    uint32_t i;
+
+   while(1)
+    {
+	   i++;
+    1124:	8fc20018 	lw	v0,24(s8)
+    1128:	00000000 	nop
+    112c:	24420001 	addiu	v0,v0,1
+    1130:	afc20018 	sw	v0,24(s8)
+    }
+    1134:	1000fffb 	b	1124 <main+0x1f8>
+    1138:	00000000 	nop
+
+0000113c <memcpy>:
+
+#include <string.h>
+#include <stddef.h> // Include for size_t definition
+
+void *memcpy(void *dest, const void *src, size_t count)
+{
+    113c:	27bdfff0 	addiu	sp,sp,-16
+    1140:	afbe000c 	sw	s8,12(sp)
+    1144:	03a0f025 	move	s8,sp
+    1148:	afc40010 	sw	a0,16(s8)
+    114c:	afc50014 	sw	a1,20(s8)
+    1150:	afc60018 	sw	a2,24(s8)
+	char *dst8 = (char *)dest;
+    1154:	8fc20010 	lw	v0,16(s8)
+    1158:	00000000 	nop
+    115c:	afc20000 	sw	v0,0(s8)
+	char *src8 = (char *)src;
+    1160:	8fc20014 	lw	v0,20(s8)
+    1164:	00000000 	nop
+    1168:	afc20004 	sw	v0,4(s8)
+
+	while (count--) {
+    116c:	1000000c 	b	11a0 <memcpy+0x64>
+    1170:	00000000 	nop
+		*dst8++ = *src8++;
+    1174:	8fc20000 	lw	v0,0(s8)
+    1178:	00000000 	nop
+    117c:	24430001 	addiu	v1,v0,1
+    1180:	afc30000 	sw	v1,0(s8)
+    1184:	8fc30004 	lw	v1,4(s8)
+    1188:	00000000 	nop
+    118c:	24640001 	addiu	a0,v1,1
+    1190:	afc40004 	sw	a0,4(s8)
+    1194:	90630000 	lbu	v1,0(v1)
+    1198:	00000000 	nop
+    119c:	a0430000 	sb	v1,0(v0)
 void *memcpy(void *dest, const void *src, size_t count)
 {
 	char *dst8 = (char *)dest;
 	char *src8 = (char *)src;
 
 	while (count--) {
-     dbc:	8fc20018 	lw	v0,24(s8)
-     dc0:	00000000 	nop
-     dc4:	2443ffff 	addiu	v1,v0,-1
-     dc8:	afc30018 	sw	v1,24(s8)
-     dcc:	1440fff0 	bnez	v0,d90 <memcpy+0x38>
-     dd0:	00000000 	nop
+    11a0:	8fc20018 	lw	v0,24(s8)
+    11a4:	00000000 	nop
+    11a8:	2443ffff 	addiu	v1,v0,-1
+    11ac:	afc30018 	sw	v1,24(s8)
+    11b0:	1440fff0 	bnez	v0,1174 <memcpy+0x38>
+    11b4:	00000000 	nop
 		*dst8++ = *src8++;
 	}
 	return dest;
-     dd4:	8fc20010 	lw	v0,16(s8)
+    11b8:	8fc20010 	lw	v0,16(s8)
 }
-     dd8:	03c0e825 	move	sp,s8
-     ddc:	8fbe000c 	lw	s8,12(sp)
-     de0:	27bd0010 	addiu	sp,sp,16
-     de4:	03e00008 	jr	ra
-     de8:	00000000 	nop
+    11bc:	03c0e825 	move	sp,s8
+    11c0:	8fbe000c 	lw	s8,12(sp)
+    11c4:	27bd0010 	addiu	sp,sp,16
+    11c8:	03e00008 	jr	ra
+    11cc:	00000000 	nop
 
-00000dec <memset>:
+000011d0 <memset>:
 #include <string.h>
 #include <stddef.h> // Include for size_t definition
 
 void *memset(void *dest, int c, size_t count)
 {
-     dec:	27bdfff0 	addiu	sp,sp,-16
-     df0:	afbe000c 	sw	s8,12(sp)
-     df4:	03a0f025 	move	s8,sp
-     df8:	afc40010 	sw	a0,16(s8)
-     dfc:	afc50014 	sw	a1,20(s8)
-     e00:	afc60018 	sw	a2,24(s8)
+    11d0:	27bdfff0 	addiu	sp,sp,-16
+    11d4:	afbe000c 	sw	s8,12(sp)
+    11d8:	03a0f025 	move	s8,sp
+    11dc:	afc40010 	sw	a0,16(s8)
+    11e0:	afc50014 	sw	a1,20(s8)
+    11e4:	afc60018 	sw	a2,24(s8)
 	char *dst8 = (char *)dest;
-     e04:	8fc20010 	lw	v0,16(s8)
-     e08:	00000000 	nop
-     e0c:	afc20000 	sw	v0,0(s8)
+    11e8:	8fc20010 	lw	v0,16(s8)
+    11ec:	00000000 	nop
+    11f0:	afc20000 	sw	v0,0(s8)
 
 	while (count--) {
-     e10:	10000009 	b	e38 <memset+0x4c>
-     e14:	00000000 	nop
+    11f4:	10000009 	b	121c <memset+0x4c>
+    11f8:	00000000 	nop
 		*dst8++ = c;
-     e18:	8fc20000 	lw	v0,0(s8)
-     e1c:	00000000 	nop
-     e20:	24430001 	addiu	v1,v0,1
-     e24:	afc30000 	sw	v1,0(s8)
-     e28:	8fc30014 	lw	v1,20(s8)
-     e2c:	00000000 	nop
-     e30:	306300ff 	andi	v1,v1,0xff
-     e34:	a0430000 	sb	v1,0(v0)
+    11fc:	8fc20000 	lw	v0,0(s8)
+    1200:	00000000 	nop
+    1204:	24430001 	addiu	v1,v0,1
+    1208:	afc30000 	sw	v1,0(s8)
+    120c:	8fc30014 	lw	v1,20(s8)
+    1210:	00000000 	nop
+    1214:	306300ff 	andi	v1,v1,0xff
+    1218:	a0430000 	sb	v1,0(v0)
 
 void *memset(void *dest, int c, size_t count)
 {
 	char *dst8 = (char *)dest;
 
 	while (count--) {
-     e38:	8fc20018 	lw	v0,24(s8)
-     e3c:	00000000 	nop
-     e40:	2443ffff 	addiu	v1,v0,-1
-     e44:	afc30018 	sw	v1,24(s8)
-     e48:	1440fff3 	bnez	v0,e18 <memset+0x2c>
-     e4c:	00000000 	nop
+    121c:	8fc20018 	lw	v0,24(s8)
+    1220:	00000000 	nop
+    1224:	2443ffff 	addiu	v1,v0,-1
+    1228:	afc30018 	sw	v1,24(s8)
+    122c:	1440fff3 	bnez	v0,11fc <memset+0x2c>
+    1230:	00000000 	nop
 		*dst8++ = c;
 	}
 	return dest;
-     e50:	8fc20010 	lw	v0,16(s8)
+    1234:	8fc20010 	lw	v0,16(s8)
 }
-     e54:	03c0e825 	move	sp,s8
-     e58:	8fbe000c 	lw	s8,12(sp)
-     e5c:	27bd0010 	addiu	sp,sp,16
-     e60:	03e00008 	jr	ra
-     e64:	00000000 	nop
+    1238:	03c0e825 	move	sp,s8
+    123c:	8fbe000c 	lw	s8,12(sp)
+    1240:	27bd0010 	addiu	sp,sp,16
+    1244:	03e00008 	jr	ra
+    1248:	00000000 	nop
 
-00000e68 <_premain>:
+0000124c <_premain>:
 extern char _bss_end;
 
 int main();
 
 void _premain()
 {
-     e68:	27bdffe8 	addiu	sp,sp,-24
-     e6c:	afbf0014 	sw	ra,20(sp)
-     e70:	afbe0010 	sw	s8,16(sp)
-     e74:	03a0f025 	move	s8,sp
+    124c:	27bdffe8 	addiu	sp,sp,-24
+    1250:	afbf0014 	sw	ra,20(sp)
+    1254:	afbe0010 	sw	s8,16(sp)
+    1258:	03a0f025 	move	s8,sp
 	/* move initialized data from ROM to RAM */
 	if ((&_data_start) != (&_data_start_rom)) {
-     e78:	27830000 	addiu	v1,gp,0
-     e7c:	2782d9b7 	addiu	v0,gp,-9801
-     e80:	10620009 	beq	v1,v0,ea8 <_premain+0x40>
-     e84:	00000000 	nop
+    125c:	27830000 	addiu	v1,gp,0
+    1260:	2782dd9f 	addiu	v0,gp,-8801
+    1264:	10620009 	beq	v1,v0,128c <_premain+0x40>
+    1268:	00000000 	nop
 		memcpy(&_data_start, &_data_start_rom, &_data_end - &_data_start);
-     e88:	27830000 	addiu	v1,gp,0
-     e8c:	27820000 	addiu	v0,gp,0
-     e90:	00621023 	subu	v0,v1,v0
-     e94:	00403025 	move	a2,v0
-     e98:	2785d9b7 	addiu	a1,gp,-9801
-     e9c:	27840000 	addiu	a0,gp,0
-     ea0:	0c000356 	jal	d58 <memcpy>
-     ea4:	00000000 	nop
+    126c:	27830000 	addiu	v1,gp,0
+    1270:	27820000 	addiu	v0,gp,0
+    1274:	00621023 	subu	v0,v1,v0
+    1278:	00403025 	move	a2,v0
+    127c:	2785dd9f 	addiu	a1,gp,-8801
+    1280:	27840000 	addiu	a0,gp,0
+    1284:	0c00044f 	jal	113c <memcpy>
+    1288:	00000000 	nop
 	}
 
 	memset(&_bss_start, 0, &_bss_end - &_bss_start);
-     ea8:	278302b4 	addiu	v1,gp,692
-     eac:	27820000 	addiu	v0,gp,0
-     eb0:	00621023 	subu	v0,v1,v0
-     eb4:	00403025 	move	a2,v0
-     eb8:	00002825 	move	a1,zero
-     ebc:	27840000 	addiu	a0,gp,0
-     ec0:	0c00037b 	jal	dec <memset>
-     ec4:	00000000 	nop
+    128c:	2783007c 	addiu	v1,gp,124
+    1290:	27820000 	addiu	v0,gp,0
+    1294:	00621023 	subu	v0,v1,v0
+    1298:	00403025 	move	a2,v0
+    129c:	00002825 	move	a1,zero
+    12a0:	27840000 	addiu	a0,gp,0
+    12a4:	0c000474 	jal	11d0 <memset>
+    12a8:	00000000 	nop
 
 	main();
-     ec8:	0c00031e 	jal	c78 <main>
-     ecc:	00000000 	nop
+    12ac:	0c0003cb 	jal	f2c <main>
+    12b0:	00000000 	nop
 	while(1);
-     ed0:	1000ffff 	b	ed0 <_premain+0x68>
-     ed4:	00000000 	nop
+    12b4:	1000ffff 	b	12b4 <_premain+0x68>
+    12b8:	00000000 	nop
 
-00000ed8 <puts>:
+000012bc <puts>:
 */
 #define putchar(c) outbyte(c)
 
 /* Added by Rainer Hoeckmann, 2020-03-05 */
 int	puts(const char * s)
 {
-     ed8:	27bdffe8 	addiu	sp,sp,-24
-     edc:	afbf0014 	sw	ra,20(sp)
-     ee0:	afbe0010 	sw	s8,16(sp)
-     ee4:	03a0f025 	move	s8,sp
-     ee8:	afc40018 	sw	a0,24(s8)
+    12bc:	27bdffe8 	addiu	sp,sp,-24
+    12c0:	afbf0014 	sw	ra,20(sp)
+    12c4:	afbe0010 	sw	s8,16(sp)
+    12c8:	03a0f025 	move	s8,sp
+    12cc:	afc40018 	sw	a0,24(s8)
 	extern int putchar(int c);
 	while(*s)
-     eec:	1000000a 	b	f18 <puts+0x40>
-     ef0:	00000000 	nop
+    12d0:	1000000a 	b	12fc <puts+0x40>
+    12d4:	00000000 	nop
 		putchar(*s++);
-     ef4:	8fc20018 	lw	v0,24(s8)
-     ef8:	00000000 	nop
-     efc:	24430001 	addiu	v1,v0,1
-     f00:	afc30018 	sw	v1,24(s8)
-     f04:	90420000 	lbu	v0,0(v0)
-     f08:	00000000 	nop
-     f0c:	00402025 	move	a0,v0
-     f10:	0c000643 	jal	190c <outbyte>
-     f14:	00000000 	nop
+    12d8:	8fc20018 	lw	v0,24(s8)
+    12dc:	00000000 	nop
+    12e0:	24430001 	addiu	v1,v0,1
+    12e4:	afc30018 	sw	v1,24(s8)
+    12e8:	90420000 	lbu	v0,0(v0)
+    12ec:	00000000 	nop
+    12f0:	00402025 	move	a0,v0
+    12f4:	0c00073c 	jal	1cf0 <outbyte>
+    12f8:	00000000 	nop
 
 /* Added by Rainer Hoeckmann, 2020-03-05 */
 int	puts(const char * s)
 {
 	extern int putchar(int c);
 	while(*s)
-     f18:	8fc20018 	lw	v0,24(s8)
-     f1c:	00000000 	nop
-     f20:	90420000 	lbu	v0,0(v0)
-     f24:	00000000 	nop
-     f28:	1440fff2 	bnez	v0,ef4 <puts+0x1c>
-     f2c:	00000000 	nop
+    12fc:	8fc20018 	lw	v0,24(s8)
+    1300:	00000000 	nop
+    1304:	90420000 	lbu	v0,0(v0)
+    1308:	00000000 	nop
+    130c:	1440fff2 	bnez	v0,12d8 <puts+0x1c>
+    1310:	00000000 	nop
 		putchar(*s++);
 	putchar('\n');
-     f30:	2404000a 	li	a0,10
-     f34:	0c000643 	jal	190c <outbyte>
-     f38:	00000000 	nop
+    1314:	2404000a 	li	a0,10
+    1318:	0c00073c 	jal	1cf0 <outbyte>
+    131c:	00000000 	nop
 	return 0;
-     f3c:	00001025 	move	v0,zero
+    1320:	00001025 	move	v0,zero
 }
-     f40:	03c0e825 	move	sp,s8
-     f44:	8fbf0014 	lw	ra,20(sp)
-     f48:	8fbe0010 	lw	s8,16(sp)
-     f4c:	27bd0018 	addiu	sp,sp,24
-     f50:	03e00008 	jr	ra
-     f54:	00000000 	nop
+    1324:	03c0e825 	move	sp,s8
+    1328:	8fbf0014 	lw	ra,20(sp)
+    132c:	8fbe0010 	lw	s8,16(sp)
+    1330:	27bd0018 	addiu	sp,sp,24
+    1334:	03e00008 	jr	ra
+    1338:	00000000 	nop
 
-00000f58 <printchar>:
+0000133c <printchar>:
 
 static void printchar(char **str, int c)
 {
-     f58:	27bdffe8 	addiu	sp,sp,-24
-     f5c:	afbf0014 	sw	ra,20(sp)
-     f60:	afbe0010 	sw	s8,16(sp)
-     f64:	03a0f025 	move	s8,sp
-     f68:	afc40018 	sw	a0,24(s8)
-     f6c:	afc5001c 	sw	a1,28(s8)
+    133c:	27bdffe8 	addiu	sp,sp,-24
+    1340:	afbf0014 	sw	ra,20(sp)
+    1344:	afbe0010 	sw	s8,16(sp)
+    1348:	03a0f025 	move	s8,sp
+    134c:	afc40018 	sw	a0,24(s8)
+    1350:	afc5001c 	sw	a1,28(s8)
 	extern int putchar(int c);
 	if (str) {
-     f70:	8fc20018 	lw	v0,24(s8)
-     f74:	00000000 	nop
-     f78:	10400012 	beqz	v0,fc4 <printchar+0x6c>
-     f7c:	00000000 	nop
+    1354:	8fc20018 	lw	v0,24(s8)
+    1358:	00000000 	nop
+    135c:	10400012 	beqz	v0,13a8 <printchar+0x6c>
+    1360:	00000000 	nop
 		**str = c;
-     f80:	8fc20018 	lw	v0,24(s8)
-     f84:	00000000 	nop
-     f88:	8c420000 	lw	v0,0(v0)
-     f8c:	8fc3001c 	lw	v1,28(s8)
-     f90:	00000000 	nop
-     f94:	306300ff 	andi	v1,v1,0xff
-     f98:	a0430000 	sb	v1,0(v0)
+    1364:	8fc20018 	lw	v0,24(s8)
+    1368:	00000000 	nop
+    136c:	8c420000 	lw	v0,0(v0)
+    1370:	8fc3001c 	lw	v1,28(s8)
+    1374:	00000000 	nop
+    1378:	306300ff 	andi	v1,v1,0xff
+    137c:	a0430000 	sb	v1,0(v0)
 		++(*str);
-     f9c:	8fc20018 	lw	v0,24(s8)
-     fa0:	00000000 	nop
-     fa4:	8c420000 	lw	v0,0(v0)
-     fa8:	00000000 	nop
-     fac:	24430001 	addiu	v1,v0,1
-     fb0:	8fc20018 	lw	v0,24(s8)
-     fb4:	00000000 	nop
-     fb8:	ac430000 	sw	v1,0(v0)
+    1380:	8fc20018 	lw	v0,24(s8)
+    1384:	00000000 	nop
+    1388:	8c420000 	lw	v0,0(v0)
+    138c:	00000000 	nop
+    1390:	24430001 	addiu	v1,v0,1
+    1394:	8fc20018 	lw	v0,24(s8)
+    1398:	00000000 	nop
+    139c:	ac430000 	sw	v1,0(v0)
 	} else {
 		(void)putchar(c);
 	}
 }
-     fbc:	10000004 	b	fd0 <printchar+0x78>
-     fc0:	00000000 	nop
+    13a0:	10000004 	b	13b4 <printchar+0x78>
+    13a4:	00000000 	nop
 	extern int putchar(int c);
 	if (str) {
 		**str = c;
 		++(*str);
 	} else {
 		(void)putchar(c);
-     fc4:	8fc4001c 	lw	a0,28(s8)
-     fc8:	0c000643 	jal	190c <outbyte>
-     fcc:	00000000 	nop
+    13a8:	8fc4001c 	lw	a0,28(s8)
+    13ac:	0c00073c 	jal	1cf0 <outbyte>
+    13b0:	00000000 	nop
 	}
 }
-     fd0:	00000000 	nop
-     fd4:	03c0e825 	move	sp,s8
-     fd8:	8fbf0014 	lw	ra,20(sp)
-     fdc:	8fbe0010 	lw	s8,16(sp)
-     fe0:	27bd0018 	addiu	sp,sp,24
-     fe4:	03e00008 	jr	ra
-     fe8:	00000000 	nop
+    13b4:	00000000 	nop
+    13b8:	03c0e825 	move	sp,s8
+    13bc:	8fbf0014 	lw	ra,20(sp)
+    13c0:	8fbe0010 	lw	s8,16(sp)
+    13c4:	27bd0018 	addiu	sp,sp,24
+    13c8:	03e00008 	jr	ra
+    13cc:	00000000 	nop
 
-00000fec <prints>:
+000013d0 <prints>:
 
 #define PAD_RIGHT 1
 #define PAD_ZERO 2
 
 static int prints(char **out, const char *string, int width, int pad)
 {
-     fec:	27bdffd8 	addiu	sp,sp,-40
-     ff0:	afbf0024 	sw	ra,36(sp)
-     ff4:	afbe0020 	sw	s8,32(sp)
-     ff8:	afb3001c 	sw	s3,28(sp)
-     ffc:	afb20018 	sw	s2,24(sp)
-    1000:	afb10014 	sw	s1,20(sp)
-    1004:	afb00010 	sw	s0,16(sp)
-    1008:	03a0f025 	move	s8,sp
-    100c:	afc40028 	sw	a0,40(s8)
-    1010:	afc5002c 	sw	a1,44(s8)
-    1014:	afc60030 	sw	a2,48(s8)
-    1018:	afc70034 	sw	a3,52(s8)
+    13d0:	27bdffd8 	addiu	sp,sp,-40
+    13d4:	afbf0024 	sw	ra,36(sp)
+    13d8:	afbe0020 	sw	s8,32(sp)
+    13dc:	afb3001c 	sw	s3,28(sp)
+    13e0:	afb20018 	sw	s2,24(sp)
+    13e4:	afb10014 	sw	s1,20(sp)
+    13e8:	afb00010 	sw	s0,16(sp)
+    13ec:	03a0f025 	move	s8,sp
+    13f0:	afc40028 	sw	a0,40(s8)
+    13f4:	afc5002c 	sw	a1,44(s8)
+    13f8:	afc60030 	sw	a2,48(s8)
+    13fc:	afc70034 	sw	a3,52(s8)
 	register int pc = 0, padchar = ' ';
-    101c:	00008025 	move	s0,zero
-    1020:	24130020 	li	s3,32
+    1400:	00008025 	move	s0,zero
+    1404:	24130020 	li	s3,32
 
 	if (width > 0) {
-    1024:	8fc20030 	lw	v0,48(s8)
-    1028:	00000000 	nop
-    102c:	1840001d 	blez	v0,10a4 <prints+0xb8>
-    1030:	00000000 	nop
+    1408:	8fc20030 	lw	v0,48(s8)
+    140c:	00000000 	nop
+    1410:	1840001d 	blez	v0,1488 <prints+0xb8>
+    1414:	00000000 	nop
 		register int len = 0;
-    1034:	00008825 	move	s1,zero
+    1418:	00008825 	move	s1,zero
 		register const char *ptr;
 		for (ptr = string; *ptr; ++ptr) {
-    1038:	8fd2002c 	lw	s2,44(s8)
-    103c:	10000003 	b	104c <prints+0x60>
-    1040:	00000000 	nop
+    141c:	8fd2002c 	lw	s2,44(s8)
+    1420:	10000003 	b	1430 <prints+0x60>
+    1424:	00000000 	nop
 			++len;
-    1044:	26310001 	addiu	s1,s1,1
+    1428:	26310001 	addiu	s1,s1,1
 	register int pc = 0, padchar = ' ';
 
 	if (width > 0) {
 		register int len = 0;
 		register const char *ptr;
 		for (ptr = string; *ptr; ++ptr) {
-    1048:	26520001 	addiu	s2,s2,1
-    104c:	92420000 	lbu	v0,0(s2)
-    1050:	00000000 	nop
-    1054:	1440fffb 	bnez	v0,1044 <prints+0x58>
-    1058:	00000000 	nop
+    142c:	26520001 	addiu	s2,s2,1
+    1430:	92420000 	lbu	v0,0(s2)
+    1434:	00000000 	nop
+    1438:	1440fffb 	bnez	v0,1428 <prints+0x58>
+    143c:	00000000 	nop
 			++len;
 		}
 		if (len >= width) {
-    105c:	8fc20030 	lw	v0,48(s8)
-    1060:	00000000 	nop
-    1064:	0222102a 	slt	v0,s1,v0
-    1068:	14400004 	bnez	v0,107c <prints+0x90>
-    106c:	00000000 	nop
+    1440:	8fc20030 	lw	v0,48(s8)
+    1444:	00000000 	nop
+    1448:	0222102a 	slt	v0,s1,v0
+    144c:	14400004 	bnez	v0,1460 <prints+0x90>
+    1450:	00000000 	nop
 			width = 0;
-    1070:	afc00030 	sw	zero,48(s8)
-    1074:	10000005 	b	108c <prints+0xa0>
-    1078:	00000000 	nop
+    1454:	afc00030 	sw	zero,48(s8)
+    1458:	10000005 	b	1470 <prints+0xa0>
+    145c:	00000000 	nop
 		} else {
 			width -= len;
-    107c:	8fc20030 	lw	v0,48(s8)
-    1080:	00000000 	nop
-    1084:	00511023 	subu	v0,v0,s1
-    1088:	afc20030 	sw	v0,48(s8)
+    1460:	8fc20030 	lw	v0,48(s8)
+    1464:	00000000 	nop
+    1468:	00511023 	subu	v0,v0,s1
+    146c:	afc20030 	sw	v0,48(s8)
 		}
 		if (pad & PAD_ZERO) {
-    108c:	8fc20034 	lw	v0,52(s8)
-    1090:	00000000 	nop
-    1094:	30420002 	andi	v0,v0,0x2
-    1098:	10400002 	beqz	v0,10a4 <prints+0xb8>
-    109c:	00000000 	nop
+    1470:	8fc20034 	lw	v0,52(s8)
+    1474:	00000000 	nop
+    1478:	30420002 	andi	v0,v0,0x2
+    147c:	10400002 	beqz	v0,1488 <prints+0xb8>
+    1480:	00000000 	nop
 			padchar = '0';
-    10a0:	24130030 	li	s3,48
+    1484:	24130030 	li	s3,48
 		}
 	}
 	if (!(pad & PAD_RIGHT)) {
-    10a4:	8fc20034 	lw	v0,52(s8)
-    10a8:	00000000 	nop
-    10ac:	30420001 	andi	v0,v0,0x1
-    10b0:	1440001f 	bnez	v0,1130 <prints+0x144>
-    10b4:	00000000 	nop
+    1488:	8fc20034 	lw	v0,52(s8)
+    148c:	00000000 	nop
+    1490:	30420001 	andi	v0,v0,0x1
+    1494:	1440001f 	bnez	v0,1514 <prints+0x144>
+    1498:	00000000 	nop
 		for ( ; width > 0; --width) {
-    10b8:	1000000a 	b	10e4 <prints+0xf8>
-    10bc:	00000000 	nop
+    149c:	1000000a 	b	14c8 <prints+0xf8>
+    14a0:	00000000 	nop
 			printchar (out, padchar);
-    10c0:	02602825 	move	a1,s3
-    10c4:	8fc40028 	lw	a0,40(s8)
-    10c8:	0c0003d6 	jal	f58 <printchar>
-    10cc:	00000000 	nop
+    14a4:	02602825 	move	a1,s3
+    14a8:	8fc40028 	lw	a0,40(s8)
+    14ac:	0c0004cf 	jal	133c <printchar>
+    14b0:	00000000 	nop
 			++pc;
-    10d0:	26100001 	addiu	s0,s0,1
+    14b4:	26100001 	addiu	s0,s0,1
 		if (pad & PAD_ZERO) {
 			padchar = '0';
 		}
 	}
 	if (!(pad & PAD_RIGHT)) {
 		for ( ; width > 0; --width) {
-    10d4:	8fc20030 	lw	v0,48(s8)
-    10d8:	00000000 	nop
-    10dc:	2442ffff 	addiu	v0,v0,-1
-    10e0:	afc20030 	sw	v0,48(s8)
-    10e4:	8fc20030 	lw	v0,48(s8)
-    10e8:	00000000 	nop
-    10ec:	1c40fff4 	bgtz	v0,10c0 <prints+0xd4>
-    10f0:	00000000 	nop
+    14b8:	8fc20030 	lw	v0,48(s8)
+    14bc:	00000000 	nop
+    14c0:	2442ffff 	addiu	v0,v0,-1
+    14c4:	afc20030 	sw	v0,48(s8)
+    14c8:	8fc20030 	lw	v0,48(s8)
+    14cc:	00000000 	nop
+    14d0:	1c40fff4 	bgtz	v0,14a4 <prints+0xd4>
+    14d4:	00000000 	nop
 			printchar (out, padchar);
 			++pc;
 		}
 	}
 	for ( ; *string ; ++string) {
-    10f4:	1000000e 	b	1130 <prints+0x144>
-    10f8:	00000000 	nop
+    14d8:	1000000e 	b	1514 <prints+0x144>
+    14dc:	00000000 	nop
 		printchar (out, *string);
-    10fc:	8fc2002c 	lw	v0,44(s8)
-    1100:	00000000 	nop
-    1104:	90420000 	lbu	v0,0(v0)
-    1108:	00000000 	nop
-    110c:	00402825 	move	a1,v0
-    1110:	8fc40028 	lw	a0,40(s8)
-    1114:	0c0003d6 	jal	f58 <printchar>
-    1118:	00000000 	nop
+    14e0:	8fc2002c 	lw	v0,44(s8)
+    14e4:	00000000 	nop
+    14e8:	90420000 	lbu	v0,0(v0)
+    14ec:	00000000 	nop
+    14f0:	00402825 	move	a1,v0
+    14f4:	8fc40028 	lw	a0,40(s8)
+    14f8:	0c0004cf 	jal	133c <printchar>
+    14fc:	00000000 	nop
 		++pc;
-    111c:	26100001 	addiu	s0,s0,1
+    1500:	26100001 	addiu	s0,s0,1
 		for ( ; width > 0; --width) {
 			printchar (out, padchar);
 			++pc;
 		}
 	}
 	for ( ; *string ; ++string) {
-    1120:	8fc2002c 	lw	v0,44(s8)
-    1124:	00000000 	nop
-    1128:	24420001 	addiu	v0,v0,1
-    112c:	afc2002c 	sw	v0,44(s8)
-    1130:	8fc2002c 	lw	v0,44(s8)
-    1134:	00000000 	nop
-    1138:	90420000 	lbu	v0,0(v0)
-    113c:	00000000 	nop
-    1140:	1440ffee 	bnez	v0,10fc <prints+0x110>
-    1144:	00000000 	nop
+    1504:	8fc2002c 	lw	v0,44(s8)
+    1508:	00000000 	nop
+    150c:	24420001 	addiu	v0,v0,1
+    1510:	afc2002c 	sw	v0,44(s8)
+    1514:	8fc2002c 	lw	v0,44(s8)
+    1518:	00000000 	nop
+    151c:	90420000 	lbu	v0,0(v0)
+    1520:	00000000 	nop
+    1524:	1440ffee 	bnez	v0,14e0 <prints+0x110>
+    1528:	00000000 	nop
 		printchar (out, *string);
 		++pc;
 	}
 	for ( ; width > 0; --width) {
-    1148:	1000000a 	b	1174 <prints+0x188>
-    114c:	00000000 	nop
+    152c:	1000000a 	b	1558 <prints+0x188>
+    1530:	00000000 	nop
 		printchar (out, padchar);
-    1150:	02602825 	move	a1,s3
-    1154:	8fc40028 	lw	a0,40(s8)
-    1158:	0c0003d6 	jal	f58 <printchar>
-    115c:	00000000 	nop
+    1534:	02602825 	move	a1,s3
+    1538:	8fc40028 	lw	a0,40(s8)
+    153c:	0c0004cf 	jal	133c <printchar>
+    1540:	00000000 	nop
 		++pc;
-    1160:	26100001 	addiu	s0,s0,1
+    1544:	26100001 	addiu	s0,s0,1
 	}
 	for ( ; *string ; ++string) {
 		printchar (out, *string);
 		++pc;
 	}
 	for ( ; width > 0; --width) {
-    1164:	8fc20030 	lw	v0,48(s8)
-    1168:	00000000 	nop
-    116c:	2442ffff 	addiu	v0,v0,-1
-    1170:	afc20030 	sw	v0,48(s8)
-    1174:	8fc20030 	lw	v0,48(s8)
-    1178:	00000000 	nop
-    117c:	1c40fff4 	bgtz	v0,1150 <prints+0x164>
-    1180:	00000000 	nop
+    1548:	8fc20030 	lw	v0,48(s8)
+    154c:	00000000 	nop
+    1550:	2442ffff 	addiu	v0,v0,-1
+    1554:	afc20030 	sw	v0,48(s8)
+    1558:	8fc20030 	lw	v0,48(s8)
+    155c:	00000000 	nop
+    1560:	1c40fff4 	bgtz	v0,1534 <prints+0x164>
+    1564:	00000000 	nop
 		printchar (out, padchar);
 		++pc;
 	}
 
 	return pc;
-    1184:	02001025 	move	v0,s0
+    1568:	02001025 	move	v0,s0
 }
-    1188:	03c0e825 	move	sp,s8
-    118c:	8fbf0024 	lw	ra,36(sp)
-    1190:	8fbe0020 	lw	s8,32(sp)
-    1194:	8fb3001c 	lw	s3,28(sp)
-    1198:	8fb20018 	lw	s2,24(sp)
-    119c:	8fb10014 	lw	s1,20(sp)
-    11a0:	8fb00010 	lw	s0,16(sp)
-    11a4:	27bd0028 	addiu	sp,sp,40
-    11a8:	03e00008 	jr	ra
-    11ac:	00000000 	nop
+    156c:	03c0e825 	move	sp,s8
+    1570:	8fbf0024 	lw	ra,36(sp)
+    1574:	8fbe0020 	lw	s8,32(sp)
+    1578:	8fb3001c 	lw	s3,28(sp)
+    157c:	8fb20018 	lw	s2,24(sp)
+    1580:	8fb10014 	lw	s1,20(sp)
+    1584:	8fb00010 	lw	s0,16(sp)
+    1588:	27bd0028 	addiu	sp,sp,40
+    158c:	03e00008 	jr	ra
+    1590:	00000000 	nop
 
-000011b0 <printi>:
+00001594 <printi>:
 
 /* the following should be enough for 32 bit int */
 #define PRINT_BUF_LEN 12
 
 static int printi(char **out, int i, int b, int sg, int width, int pad, int letbase)
 {
-    11b0:	27bdffc8 	addiu	sp,sp,-56
-    11b4:	afbf0034 	sw	ra,52(sp)
-    11b8:	afbe0030 	sw	s8,48(sp)
-    11bc:	afb3002c 	sw	s3,44(sp)
-    11c0:	afb20028 	sw	s2,40(sp)
-    11c4:	afb10024 	sw	s1,36(sp)
-    11c8:	afb00020 	sw	s0,32(sp)
-    11cc:	03a0f025 	move	s8,sp
-    11d0:	afc40038 	sw	a0,56(s8)
-    11d4:	afc5003c 	sw	a1,60(s8)
-    11d8:	afc60040 	sw	a2,64(s8)
-    11dc:	afc70044 	sw	a3,68(s8)
+    1594:	27bdffc8 	addiu	sp,sp,-56
+    1598:	afbf0034 	sw	ra,52(sp)
+    159c:	afbe0030 	sw	s8,48(sp)
+    15a0:	afb3002c 	sw	s3,44(sp)
+    15a4:	afb20028 	sw	s2,40(sp)
+    15a8:	afb10024 	sw	s1,36(sp)
+    15ac:	afb00020 	sw	s0,32(sp)
+    15b0:	03a0f025 	move	s8,sp
+    15b4:	afc40038 	sw	a0,56(s8)
+    15b8:	afc5003c 	sw	a1,60(s8)
+    15bc:	afc60040 	sw	a2,64(s8)
+    15c0:	afc70044 	sw	a3,68(s8)
 	char print_buf[PRINT_BUF_LEN];
 	register char *s;
 	register int t, neg = 0, pc = 0;
-    11e0:	00009825 	move	s3,zero
-    11e4:	00009025 	move	s2,zero
+    15c4:	00009825 	move	s3,zero
+    15c8:	00009025 	move	s2,zero
 	register unsigned int u = i;
-    11e8:	8fdf003c 	lw	ra,60(s8)
+    15cc:	8fdf003c 	lw	ra,60(s8)
 
 	if (i == 0) {
-    11ec:	8fc2003c 	lw	v0,60(s8)
-    11f0:	00000000 	nop
-    11f4:	1440000d 	bnez	v0,122c <printi+0x7c>
-    11f8:	00000000 	nop
+    15d0:	8fc2003c 	lw	v0,60(s8)
+    15d4:	00000000 	nop
+    15d8:	1440000d 	bnez	v0,1610 <printi+0x7c>
+    15dc:	00000000 	nop
 		print_buf[0] = '0';
-    11fc:	24020030 	li	v0,48
-    1200:	a3c20010 	sb	v0,16(s8)
+    15e0:	24020030 	li	v0,48
+    15e4:	a3c20010 	sb	v0,16(s8)
 		print_buf[1] = '\0';
-    1204:	a3c00011 	sb	zero,17(s8)
+    15e8:	a3c00011 	sb	zero,17(s8)
 		return prints (out, print_buf, width, pad);
-    1208:	8fc7004c 	lw	a3,76(s8)
-    120c:	8fc60048 	lw	a2,72(s8)
-    1210:	27c20010 	addiu	v0,s8,16
-    1214:	00402825 	move	a1,v0
-    1218:	8fc40038 	lw	a0,56(s8)
-    121c:	0c0003fb 	jal	fec <prints>
-    1220:	00000000 	nop
-    1224:	1000004e 	b	1360 <printi+0x1b0>
-    1228:	00000000 	nop
+    15ec:	8fc7004c 	lw	a3,76(s8)
+    15f0:	8fc60048 	lw	a2,72(s8)
+    15f4:	27c20010 	addiu	v0,s8,16
+    15f8:	00402825 	move	a1,v0
+    15fc:	8fc40038 	lw	a0,56(s8)
+    1600:	0c0004f4 	jal	13d0 <prints>
+    1604:	00000000 	nop
+    1608:	1000004e 	b	1744 <printi+0x1b0>
+    160c:	00000000 	nop
 	}
 
 	if (sg && b == 10 && i < 0) {
-    122c:	8fc20044 	lw	v0,68(s8)
-    1230:	00000000 	nop
-    1234:	1040000e 	beqz	v0,1270 <printi+0xc0>
-    1238:	00000000 	nop
-    123c:	8fc30040 	lw	v1,64(s8)
-    1240:	2402000a 	li	v0,10
-    1244:	1462000a 	bne	v1,v0,1270 <printi+0xc0>
-    1248:	00000000 	nop
-    124c:	8fc2003c 	lw	v0,60(s8)
-    1250:	00000000 	nop
-    1254:	04410006 	bgez	v0,1270 <printi+0xc0>
-    1258:	00000000 	nop
+    1610:	8fc20044 	lw	v0,68(s8)
+    1614:	00000000 	nop
+    1618:	1040000e 	beqz	v0,1654 <printi+0xc0>
+    161c:	00000000 	nop
+    1620:	8fc30040 	lw	v1,64(s8)
+    1624:	2402000a 	li	v0,10
+    1628:	1462000a 	bne	v1,v0,1654 <printi+0xc0>
+    162c:	00000000 	nop
+    1630:	8fc2003c 	lw	v0,60(s8)
+    1634:	00000000 	nop
+    1638:	04410006 	bgez	v0,1654 <printi+0xc0>
+    163c:	00000000 	nop
 		neg = 1;
-    125c:	24130001 	li	s3,1
+    1640:	24130001 	li	s3,1
 		u = -i;
-    1260:	8fc2003c 	lw	v0,60(s8)
-    1264:	00000000 	nop
-    1268:	00021023 	negu	v0,v0
-    126c:	0040f825 	move	ra,v0
+    1644:	8fc2003c 	lw	v0,60(s8)
+    1648:	00000000 	nop
+    164c:	00021023 	negu	v0,v0
+    1650:	0040f825 	move	ra,v0
 	}
 
 	s = print_buf + PRINT_BUF_LEN - 1;
-    1270:	27d0001b 	addiu	s0,s8,27
+    1654:	27d0001b 	addiu	s0,s8,27
 	*s = '\0';
-    1274:	a2000000 	sb	zero,0(s0)
+    1658:	a2000000 	sb	zero,0(s0)
 
 	while (u) {
-    1278:	10000017 	b	12d8 <printi+0x128>
-    127c:	00000000 	nop
+    165c:	10000017 	b	16bc <printi+0x128>
+    1660:	00000000 	nop
 		t = u % b;
-    1280:	8fc20040 	lw	v0,64(s8)
-    1284:	00000000 	nop
-    1288:	03e2001b 	divu	zero,ra,v0
-    128c:	00001010 	mfhi	v0
-    1290:	00408825 	move	s1,v0
+    1664:	8fc20040 	lw	v0,64(s8)
+    1668:	00000000 	nop
+    166c:	03e2001b 	divu	zero,ra,v0
+    1670:	00001010 	mfhi	v0
+    1674:	00408825 	move	s1,v0
 		if( t >= 10 ) {
-    1294:	2a22000a 	slti	v0,s1,10
-    1298:	14400005 	bnez	v0,12b0 <printi+0x100>
-    129c:	00000000 	nop
+    1678:	2a22000a 	slti	v0,s1,10
+    167c:	14400005 	bnez	v0,1694 <printi+0x100>
+    1680:	00000000 	nop
 			t += letbase - '0' - 10;
-    12a0:	8fc20050 	lw	v0,80(s8)
-    12a4:	00000000 	nop
-    12a8:	2442ffc6 	addiu	v0,v0,-58
-    12ac:	02228821 	addu	s1,s1,v0
+    1684:	8fc20050 	lw	v0,80(s8)
+    1688:	00000000 	nop
+    168c:	2442ffc6 	addiu	v0,v0,-58
+    1690:	02228821 	addu	s1,s1,v0
 		}
 		*--s = t + '0';
-    12b0:	2610ffff 	addiu	s0,s0,-1
-    12b4:	322200ff 	andi	v0,s1,0xff
-    12b8:	24420030 	addiu	v0,v0,48
-    12bc:	304200ff 	andi	v0,v0,0xff
-    12c0:	a2020000 	sb	v0,0(s0)
+    1694:	2610ffff 	addiu	s0,s0,-1
+    1698:	322200ff 	andi	v0,s1,0xff
+    169c:	24420030 	addiu	v0,v0,48
+    16a0:	304200ff 	andi	v0,v0,0xff
+    16a4:	a2020000 	sb	v0,0(s0)
 		u /= b;
-    12c4:	8fc20040 	lw	v0,64(s8)
-    12c8:	00000000 	nop
-    12cc:	03e2001b 	divu	zero,ra,v0
-    12d0:	00001010 	mfhi	v0
-    12d4:	0000f812 	mflo	ra
+    16a8:	8fc20040 	lw	v0,64(s8)
+    16ac:	00000000 	nop
+    16b0:	03e2001b 	divu	zero,ra,v0
+    16b4:	00001010 	mfhi	v0
+    16b8:	0000f812 	mflo	ra
 	}
 
 	s = print_buf + PRINT_BUF_LEN - 1;
 	*s = '\0';
 
 	while (u) {
-    12d8:	17e0ffe9 	bnez	ra,1280 <printi+0xd0>
-    12dc:	00000000 	nop
+    16bc:	17e0ffe9 	bnez	ra,1664 <printi+0xd0>
+    16c0:	00000000 	nop
 		}
 		*--s = t + '0';
 		u /= b;
 	}
 
 	if (neg) {
-    12e0:	12600018 	beqz	s3,1344 <printi+0x194>
-    12e4:	00000000 	nop
+    16c4:	12600018 	beqz	s3,1728 <printi+0x194>
+    16c8:	00000000 	nop
 		if( width && (pad & PAD_ZERO) ) {
-    12e8:	8fc20048 	lw	v0,72(s8)
-    12ec:	00000000 	nop
-    12f0:	10400011 	beqz	v0,1338 <printi+0x188>
-    12f4:	00000000 	nop
-    12f8:	8fc2004c 	lw	v0,76(s8)
-    12fc:	00000000 	nop
-    1300:	30420002 	andi	v0,v0,0x2
-    1304:	1040000c 	beqz	v0,1338 <printi+0x188>
-    1308:	00000000 	nop
+    16cc:	8fc20048 	lw	v0,72(s8)
+    16d0:	00000000 	nop
+    16d4:	10400011 	beqz	v0,171c <printi+0x188>
+    16d8:	00000000 	nop
+    16dc:	8fc2004c 	lw	v0,76(s8)
+    16e0:	00000000 	nop
+    16e4:	30420002 	andi	v0,v0,0x2
+    16e8:	1040000c 	beqz	v0,171c <printi+0x188>
+    16ec:	00000000 	nop
 			printchar (out, '-');
-    130c:	2405002d 	li	a1,45
-    1310:	8fc40038 	lw	a0,56(s8)
-    1314:	0c0003d6 	jal	f58 <printchar>
-    1318:	00000000 	nop
+    16f0:	2405002d 	li	a1,45
+    16f4:	8fc40038 	lw	a0,56(s8)
+    16f8:	0c0004cf 	jal	133c <printchar>
+    16fc:	00000000 	nop
 			++pc;
-    131c:	26520001 	addiu	s2,s2,1
+    1700:	26520001 	addiu	s2,s2,1
 			--width;
-    1320:	8fc20048 	lw	v0,72(s8)
-    1324:	00000000 	nop
-    1328:	2442ffff 	addiu	v0,v0,-1
-    132c:	afc20048 	sw	v0,72(s8)
-    1330:	10000004 	b	1344 <printi+0x194>
-    1334:	00000000 	nop
+    1704:	8fc20048 	lw	v0,72(s8)
+    1708:	00000000 	nop
+    170c:	2442ffff 	addiu	v0,v0,-1
+    1710:	afc20048 	sw	v0,72(s8)
+    1714:	10000004 	b	1728 <printi+0x194>
+    1718:	00000000 	nop
 		} else {
 			*--s = '-';
-    1338:	2610ffff 	addiu	s0,s0,-1
-    133c:	2402002d 	li	v0,45
-    1340:	a2020000 	sb	v0,0(s0)
+    171c:	2610ffff 	addiu	s0,s0,-1
+    1720:	2402002d 	li	v0,45
+    1724:	a2020000 	sb	v0,0(s0)
 		}
 	}
 
 	return pc + prints (out, s, width, pad);
-    1344:	8fc7004c 	lw	a3,76(s8)
-    1348:	8fc60048 	lw	a2,72(s8)
-    134c:	02002825 	move	a1,s0
-    1350:	8fc40038 	lw	a0,56(s8)
-    1354:	0c0003fb 	jal	fec <prints>
-    1358:	00000000 	nop
-    135c:	00521021 	addu	v0,v0,s2
+    1728:	8fc7004c 	lw	a3,76(s8)
+    172c:	8fc60048 	lw	a2,72(s8)
+    1730:	02002825 	move	a1,s0
+    1734:	8fc40038 	lw	a0,56(s8)
+    1738:	0c0004f4 	jal	13d0 <prints>
+    173c:	00000000 	nop
+    1740:	00521021 	addu	v0,v0,s2
 }
-    1360:	03c0e825 	move	sp,s8
-    1364:	8fbf0034 	lw	ra,52(sp)
-    1368:	8fbe0030 	lw	s8,48(sp)
-    136c:	8fb3002c 	lw	s3,44(sp)
-    1370:	8fb20028 	lw	s2,40(sp)
-    1374:	8fb10024 	lw	s1,36(sp)
-    1378:	8fb00020 	lw	s0,32(sp)
-    137c:	27bd0038 	addiu	sp,sp,56
-    1380:	03e00008 	jr	ra
-    1384:	00000000 	nop
+    1744:	03c0e825 	move	sp,s8
+    1748:	8fbf0034 	lw	ra,52(sp)
+    174c:	8fbe0030 	lw	s8,48(sp)
+    1750:	8fb3002c 	lw	s3,44(sp)
+    1754:	8fb20028 	lw	s2,40(sp)
+    1758:	8fb10024 	lw	s1,36(sp)
+    175c:	8fb00020 	lw	s0,32(sp)
+    1760:	27bd0038 	addiu	sp,sp,56
+    1764:	03e00008 	jr	ra
+    1768:	00000000 	nop
 
-00001388 <print>:
+0000176c <print>:
 
 static int print(char **out, int *varg)
 {
-    1388:	27bdffc0 	addiu	sp,sp,-64
-    138c:	afbf003c 	sw	ra,60(sp)
-    1390:	afbe0038 	sw	s8,56(sp)
-    1394:	afb30034 	sw	s3,52(sp)
-    1398:	afb20030 	sw	s2,48(sp)
-    139c:	afb1002c 	sw	s1,44(sp)
-    13a0:	afb00028 	sw	s0,40(sp)
-    13a4:	03a0f025 	move	s8,sp
-    13a8:	afc40040 	sw	a0,64(s8)
-    13ac:	afc50044 	sw	a1,68(s8)
+    176c:	27bdffc0 	addiu	sp,sp,-64
+    1770:	afbf003c 	sw	ra,60(sp)
+    1774:	afbe0038 	sw	s8,56(sp)
+    1778:	afb30034 	sw	s3,52(sp)
+    177c:	afb20030 	sw	s2,48(sp)
+    1780:	afb1002c 	sw	s1,44(sp)
+    1784:	afb00028 	sw	s0,40(sp)
+    1788:	03a0f025 	move	s8,sp
+    178c:	afc40040 	sw	a0,64(s8)
+    1790:	afc50044 	sw	a1,68(s8)
 	register int width, pad;
 	register int pc = 0;
-    13b0:	00008825 	move	s1,zero
+    1794:	00008825 	move	s1,zero
 	register char *format = (char *)(*varg++);
-    13b4:	8fc20044 	lw	v0,68(s8)
-    13b8:	00000000 	nop
-    13bc:	24430004 	addiu	v1,v0,4
-    13c0:	afc30044 	sw	v1,68(s8)
-    13c4:	8c420000 	lw	v0,0(v0)
-    13c8:	00000000 	nop
-    13cc:	00408025 	move	s0,v0
+    1798:	8fc20044 	lw	v0,68(s8)
+    179c:	00000000 	nop
+    17a0:	24430004 	addiu	v1,v0,4
+    17a4:	afc30044 	sw	v1,68(s8)
+    17a8:	8c420000 	lw	v0,0(v0)
+    17ac:	00000000 	nop
+    17b0:	00408025 	move	s0,v0
 	char scr[2];
 
 	for (; *format != 0; ++format) {
-    13d0:	100000c5 	b	16e8 <print+0x360>
-    13d4:	00000000 	nop
+    17b4:	100000c5 	b	1acc <print+0x360>
+    17b8:	00000000 	nop
 		if (*format == '%') {
-    13d8:	92030000 	lbu	v1,0(s0)
-    13dc:	24020025 	li	v0,37
-    13e0:	146200b9 	bne	v1,v0,16c8 <print+0x340>
-    13e4:	00000000 	nop
+    17bc:	92030000 	lbu	v1,0(s0)
+    17c0:	24020025 	li	v0,37
+    17c4:	146200b9 	bne	v1,v0,1aac <print+0x340>
+    17c8:	00000000 	nop
 			++format;
-    13e8:	26100001 	addiu	s0,s0,1
+    17cc:	26100001 	addiu	s0,s0,1
 			width = pad = 0;
-    13ec:	00009825 	move	s3,zero
-    13f0:	02609025 	move	s2,s3
+    17d0:	00009825 	move	s3,zero
+    17d4:	02609025 	move	s2,s3
 			if (*format == '\0') {
-    13f4:	92020000 	lbu	v0,0(s0)
-    13f8:	00000000 	nop
-    13fc:	104000c0 	beqz	v0,1700 <print+0x378>
-    1400:	00000000 	nop
+    17d8:	92020000 	lbu	v0,0(s0)
+    17dc:	00000000 	nop
+    17e0:	104000c0 	beqz	v0,1ae4 <print+0x378>
+    17e4:	00000000 	nop
 				break;
 			}
 			if (*format == '%') {
-    1404:	92030000 	lbu	v1,0(s0)
-    1408:	24020025 	li	v0,37
-    140c:	106200ad 	beq	v1,v0,16c4 <print+0x33c>
-    1410:	00000000 	nop
+    17e8:	92030000 	lbu	v1,0(s0)
+    17ec:	24020025 	li	v0,37
+    17f0:	106200ad 	beq	v1,v0,1aa8 <print+0x33c>
+    17f4:	00000000 	nop
 				goto out;
 			}
 			if (*format == '-') {
-    1414:	92030000 	lbu	v1,0(s0)
-    1418:	2402002d 	li	v0,45
-    141c:	14620007 	bne	v1,v0,143c <print+0xb4>
-    1420:	00000000 	nop
+    17f8:	92030000 	lbu	v1,0(s0)
+    17fc:	2402002d 	li	v0,45
+    1800:	14620007 	bne	v1,v0,1820 <print+0xb4>
+    1804:	00000000 	nop
 				++format;
-    1424:	26100001 	addiu	s0,s0,1
+    1808:	26100001 	addiu	s0,s0,1
 				pad = PAD_RIGHT;
-    1428:	24130001 	li	s3,1
+    180c:	24130001 	li	s3,1
 			}
 			while (*format == '0') {
-    142c:	10000003 	b	143c <print+0xb4>
-    1430:	00000000 	nop
+    1810:	10000003 	b	1820 <print+0xb4>
+    1814:	00000000 	nop
 				++format;
-    1434:	26100001 	addiu	s0,s0,1
+    1818:	26100001 	addiu	s0,s0,1
 				pad |= PAD_ZERO;
-    1438:	36730002 	ori	s3,s3,0x2
+    181c:	36730002 	ori	s3,s3,0x2
 			}
 			if (*format == '-') {
 				++format;
 				pad = PAD_RIGHT;
 			}
 			while (*format == '0') {
-    143c:	92030000 	lbu	v1,0(s0)
-    1440:	24020030 	li	v0,48
-    1444:	1062fffb 	beq	v1,v0,1434 <print+0xac>
-    1448:	00000000 	nop
+    1820:	92030000 	lbu	v1,0(s0)
+    1824:	24020030 	li	v0,48
+    1828:	1062fffb 	beq	v1,v0,1818 <print+0xac>
+    182c:	00000000 	nop
 				++format;
 				pad |= PAD_ZERO;
 			}
 			for ( ; *format >= '0' && *format <= '9'; ++format) {
-    144c:	1000000a 	b	1478 <print+0xf0>
-    1450:	00000000 	nop
+    1830:	1000000a 	b	185c <print+0xf0>
+    1834:	00000000 	nop
 				width *= 10;
-    1454:	02401025 	move	v0,s2
-    1458:	00021040 	sll	v0,v0,0x1
-    145c:	00021880 	sll	v1,v0,0x2
-    1460:	00439021 	addu	s2,v0,v1
+    1838:	02401025 	move	v0,s2
+    183c:	00021040 	sll	v0,v0,0x1
+    1840:	00021880 	sll	v1,v0,0x2
+    1844:	00439021 	addu	s2,v0,v1
 				width += *format - '0';
-    1464:	92020000 	lbu	v0,0(s0)
-    1468:	00000000 	nop
-    146c:	2442ffd0 	addiu	v0,v0,-48
-    1470:	02429021 	addu	s2,s2,v0
+    1848:	92020000 	lbu	v0,0(s0)
+    184c:	00000000 	nop
+    1850:	2442ffd0 	addiu	v0,v0,-48
+    1854:	02429021 	addu	s2,s2,v0
 			}
 			while (*format == '0') {
 				++format;
 				pad |= PAD_ZERO;
 			}
 			for ( ; *format >= '0' && *format <= '9'; ++format) {
-    1474:	26100001 	addiu	s0,s0,1
-    1478:	92020000 	lbu	v0,0(s0)
-    147c:	00000000 	nop
-    1480:	2c420030 	sltiu	v0,v0,48
-    1484:	14400006 	bnez	v0,14a0 <print+0x118>
-    1488:	00000000 	nop
-    148c:	92020000 	lbu	v0,0(s0)
-    1490:	00000000 	nop
-    1494:	2c42003a 	sltiu	v0,v0,58
-    1498:	1440ffee 	bnez	v0,1454 <print+0xcc>
-    149c:	00000000 	nop
+    1858:	26100001 	addiu	s0,s0,1
+    185c:	92020000 	lbu	v0,0(s0)
+    1860:	00000000 	nop
+    1864:	2c420030 	sltiu	v0,v0,48
+    1868:	14400006 	bnez	v0,1884 <print+0x118>
+    186c:	00000000 	nop
+    1870:	92020000 	lbu	v0,0(s0)
+    1874:	00000000 	nop
+    1878:	2c42003a 	sltiu	v0,v0,58
+    187c:	1440ffee 	bnez	v0,1838 <print+0xcc>
+    1880:	00000000 	nop
 				width *= 10;
 				width += *format - '0';
 			}
 			if( *format == 's' ) {
-    14a0:	92030000 	lbu	v1,0(s0)
-    14a4:	24020073 	li	v0,115
-    14a8:	14620017 	bne	v1,v0,1508 <print+0x180>
-    14ac:	00000000 	nop
+    1884:	92030000 	lbu	v1,0(s0)
+    1888:	24020073 	li	v0,115
+    188c:	14620017 	bne	v1,v0,18ec <print+0x180>
+    1890:	00000000 	nop
 				register char *s = *((char **)varg++);
-    14b0:	8fc20044 	lw	v0,68(s8)
-    14b4:	00000000 	nop
-    14b8:	24430004 	addiu	v1,v0,4
-    14bc:	afc30044 	sw	v1,68(s8)
-    14c0:	8c5f0000 	lw	ra,0(v0)
-    14c4:	00000000 	nop
+    1894:	8fc20044 	lw	v0,68(s8)
+    1898:	00000000 	nop
+    189c:	24430004 	addiu	v1,v0,4
+    18a0:	afc30044 	sw	v1,68(s8)
+    18a4:	8c5f0000 	lw	ra,0(v0)
+    18a8:	00000000 	nop
 				pc += prints (out, s ? s : "(null)", width, pad);
-    14c8:	13e00004 	beqz	ra,14dc <print+0x154>
-    14cc:	00000000 	nop
-    14d0:	03e01025 	move	v0,ra
-    14d4:	10000003 	b	14e4 <print+0x15c>
-    14d8:	00000000 	nop
-    14dc:	3c020000 	lui	v0,0x0
-    14e0:	244219b0 	addiu	v0,v0,6576
-    14e4:	02603825 	move	a3,s3
-    14e8:	02403025 	move	a2,s2
-    14ec:	00402825 	move	a1,v0
-    14f0:	8fc40040 	lw	a0,64(s8)
-    14f4:	0c0003fb 	jal	fec <prints>
-    14f8:	00000000 	nop
-    14fc:	02228821 	addu	s1,s1,v0
+    18ac:	13e00004 	beqz	ra,18c0 <print+0x154>
+    18b0:	00000000 	nop
+    18b4:	03e01025 	move	v0,ra
+    18b8:	10000003 	b	18c8 <print+0x15c>
+    18bc:	00000000 	nop
+    18c0:	3c020000 	lui	v0,0x0
+    18c4:	24421d98 	addiu	v0,v0,7576
+    18c8:	02603825 	move	a3,s3
+    18cc:	02403025 	move	a2,s2
+    18d0:	00402825 	move	a1,v0
+    18d4:	8fc40040 	lw	a0,64(s8)
+    18d8:	0c0004f4 	jal	13d0 <prints>
+    18dc:	00000000 	nop
+    18e0:	02228821 	addu	s1,s1,v0
 				continue;
-    1500:	10000078 	b	16e4 <print+0x35c>
-    1504:	00000000 	nop
+    18e4:	10000078 	b	1ac8 <print+0x35c>
+    18e8:	00000000 	nop
 			}
 			if( *format == 'd' ) {
-    1508:	92030000 	lbu	v1,0(s0)
-    150c:	24020064 	li	v0,100
-    1510:	14620013 	bne	v1,v0,1560 <print+0x1d8>
-    1514:	00000000 	nop
+    18ec:	92030000 	lbu	v1,0(s0)
+    18f0:	24020064 	li	v0,100
+    18f4:	14620013 	bne	v1,v0,1944 <print+0x1d8>
+    18f8:	00000000 	nop
 				pc += printi (out, *varg++, 10, 1, width, pad, 'a');
-    1518:	8fc20044 	lw	v0,68(s8)
-    151c:	00000000 	nop
-    1520:	24430004 	addiu	v1,v0,4
-    1524:	afc30044 	sw	v1,68(s8)
-    1528:	8c430000 	lw	v1,0(v0)
-    152c:	24020061 	li	v0,97
-    1530:	afa20018 	sw	v0,24(sp)
-    1534:	afb30014 	sw	s3,20(sp)
-    1538:	afb20010 	sw	s2,16(sp)
-    153c:	24070001 	li	a3,1
-    1540:	2406000a 	li	a2,10
-    1544:	00602825 	move	a1,v1
-    1548:	8fc40040 	lw	a0,64(s8)
-    154c:	0c00046c 	jal	11b0 <printi>
-    1550:	00000000 	nop
-    1554:	02228821 	addu	s1,s1,v0
+    18fc:	8fc20044 	lw	v0,68(s8)
+    1900:	00000000 	nop
+    1904:	24430004 	addiu	v1,v0,4
+    1908:	afc30044 	sw	v1,68(s8)
+    190c:	8c430000 	lw	v1,0(v0)
+    1910:	24020061 	li	v0,97
+    1914:	afa20018 	sw	v0,24(sp)
+    1918:	afb30014 	sw	s3,20(sp)
+    191c:	afb20010 	sw	s2,16(sp)
+    1920:	24070001 	li	a3,1
+    1924:	2406000a 	li	a2,10
+    1928:	00602825 	move	a1,v1
+    192c:	8fc40040 	lw	a0,64(s8)
+    1930:	0c000565 	jal	1594 <printi>
+    1934:	00000000 	nop
+    1938:	02228821 	addu	s1,s1,v0
 				continue;
-    1558:	10000062 	b	16e4 <print+0x35c>
-    155c:	00000000 	nop
+    193c:	10000062 	b	1ac8 <print+0x35c>
+    1940:	00000000 	nop
 			}
 			if( *format == 'x' ) {
-    1560:	92030000 	lbu	v1,0(s0)
-    1564:	24020078 	li	v0,120
-    1568:	14620013 	bne	v1,v0,15b8 <print+0x230>
-    156c:	00000000 	nop
+    1944:	92030000 	lbu	v1,0(s0)
+    1948:	24020078 	li	v0,120
+    194c:	14620013 	bne	v1,v0,199c <print+0x230>
+    1950:	00000000 	nop
 				pc += printi (out, *varg++, 16, 0, width, pad, 'a');
-    1570:	8fc20044 	lw	v0,68(s8)
-    1574:	00000000 	nop
-    1578:	24430004 	addiu	v1,v0,4
-    157c:	afc30044 	sw	v1,68(s8)
-    1580:	8c430000 	lw	v1,0(v0)
-    1584:	24020061 	li	v0,97
-    1588:	afa20018 	sw	v0,24(sp)
-    158c:	afb30014 	sw	s3,20(sp)
-    1590:	afb20010 	sw	s2,16(sp)
-    1594:	00003825 	move	a3,zero
-    1598:	24060010 	li	a2,16
-    159c:	00602825 	move	a1,v1
-    15a0:	8fc40040 	lw	a0,64(s8)
-    15a4:	0c00046c 	jal	11b0 <printi>
-    15a8:	00000000 	nop
-    15ac:	02228821 	addu	s1,s1,v0
+    1954:	8fc20044 	lw	v0,68(s8)
+    1958:	00000000 	nop
+    195c:	24430004 	addiu	v1,v0,4
+    1960:	afc30044 	sw	v1,68(s8)
+    1964:	8c430000 	lw	v1,0(v0)
+    1968:	24020061 	li	v0,97
+    196c:	afa20018 	sw	v0,24(sp)
+    1970:	afb30014 	sw	s3,20(sp)
+    1974:	afb20010 	sw	s2,16(sp)
+    1978:	00003825 	move	a3,zero
+    197c:	24060010 	li	a2,16
+    1980:	00602825 	move	a1,v1
+    1984:	8fc40040 	lw	a0,64(s8)
+    1988:	0c000565 	jal	1594 <printi>
+    198c:	00000000 	nop
+    1990:	02228821 	addu	s1,s1,v0
 				continue;
-    15b0:	1000004c 	b	16e4 <print+0x35c>
-    15b4:	00000000 	nop
+    1994:	1000004c 	b	1ac8 <print+0x35c>
+    1998:	00000000 	nop
 			}
 			if( *format == 'X' ) {
-    15b8:	92030000 	lbu	v1,0(s0)
-    15bc:	24020058 	li	v0,88
-    15c0:	14620013 	bne	v1,v0,1610 <print+0x288>
-    15c4:	00000000 	nop
+    199c:	92030000 	lbu	v1,0(s0)
+    19a0:	24020058 	li	v0,88
+    19a4:	14620013 	bne	v1,v0,19f4 <print+0x288>
+    19a8:	00000000 	nop
 				pc += printi (out, *varg++, 16, 0, width, pad, 'A');
-    15c8:	8fc20044 	lw	v0,68(s8)
-    15cc:	00000000 	nop
-    15d0:	24430004 	addiu	v1,v0,4
-    15d4:	afc30044 	sw	v1,68(s8)
-    15d8:	8c430000 	lw	v1,0(v0)
-    15dc:	24020041 	li	v0,65
-    15e0:	afa20018 	sw	v0,24(sp)
-    15e4:	afb30014 	sw	s3,20(sp)
-    15e8:	afb20010 	sw	s2,16(sp)
-    15ec:	00003825 	move	a3,zero
-    15f0:	24060010 	li	a2,16
-    15f4:	00602825 	move	a1,v1
-    15f8:	8fc40040 	lw	a0,64(s8)
-    15fc:	0c00046c 	jal	11b0 <printi>
-    1600:	00000000 	nop
-    1604:	02228821 	addu	s1,s1,v0
+    19ac:	8fc20044 	lw	v0,68(s8)
+    19b0:	00000000 	nop
+    19b4:	24430004 	addiu	v1,v0,4
+    19b8:	afc30044 	sw	v1,68(s8)
+    19bc:	8c430000 	lw	v1,0(v0)
+    19c0:	24020041 	li	v0,65
+    19c4:	afa20018 	sw	v0,24(sp)
+    19c8:	afb30014 	sw	s3,20(sp)
+    19cc:	afb20010 	sw	s2,16(sp)
+    19d0:	00003825 	move	a3,zero
+    19d4:	24060010 	li	a2,16
+    19d8:	00602825 	move	a1,v1
+    19dc:	8fc40040 	lw	a0,64(s8)
+    19e0:	0c000565 	jal	1594 <printi>
+    19e4:	00000000 	nop
+    19e8:	02228821 	addu	s1,s1,v0
 				continue;
-    1608:	10000036 	b	16e4 <print+0x35c>
-    160c:	00000000 	nop
+    19ec:	10000036 	b	1ac8 <print+0x35c>
+    19f0:	00000000 	nop
 			}
 			if( *format == 'u' ) {
-    1610:	92030000 	lbu	v1,0(s0)
-    1614:	24020075 	li	v0,117
-    1618:	14620013 	bne	v1,v0,1668 <print+0x2e0>
-    161c:	00000000 	nop
+    19f4:	92030000 	lbu	v1,0(s0)
+    19f8:	24020075 	li	v0,117
+    19fc:	14620013 	bne	v1,v0,1a4c <print+0x2e0>
+    1a00:	00000000 	nop
 				pc += printi (out, *varg++, 10, 0, width, pad, 'a');
-    1620:	8fc20044 	lw	v0,68(s8)
-    1624:	00000000 	nop
-    1628:	24430004 	addiu	v1,v0,4
-    162c:	afc30044 	sw	v1,68(s8)
-    1630:	8c430000 	lw	v1,0(v0)
-    1634:	24020061 	li	v0,97
-    1638:	afa20018 	sw	v0,24(sp)
-    163c:	afb30014 	sw	s3,20(sp)
-    1640:	afb20010 	sw	s2,16(sp)
-    1644:	00003825 	move	a3,zero
-    1648:	2406000a 	li	a2,10
-    164c:	00602825 	move	a1,v1
-    1650:	8fc40040 	lw	a0,64(s8)
-    1654:	0c00046c 	jal	11b0 <printi>
-    1658:	00000000 	nop
-    165c:	02228821 	addu	s1,s1,v0
+    1a04:	8fc20044 	lw	v0,68(s8)
+    1a08:	00000000 	nop
+    1a0c:	24430004 	addiu	v1,v0,4
+    1a10:	afc30044 	sw	v1,68(s8)
+    1a14:	8c430000 	lw	v1,0(v0)
+    1a18:	24020061 	li	v0,97
+    1a1c:	afa20018 	sw	v0,24(sp)
+    1a20:	afb30014 	sw	s3,20(sp)
+    1a24:	afb20010 	sw	s2,16(sp)
+    1a28:	00003825 	move	a3,zero
+    1a2c:	2406000a 	li	a2,10
+    1a30:	00602825 	move	a1,v1
+    1a34:	8fc40040 	lw	a0,64(s8)
+    1a38:	0c000565 	jal	1594 <printi>
+    1a3c:	00000000 	nop
+    1a40:	02228821 	addu	s1,s1,v0
 				continue;
-    1660:	10000020 	b	16e4 <print+0x35c>
-    1664:	00000000 	nop
+    1a44:	10000020 	b	1ac8 <print+0x35c>
+    1a48:	00000000 	nop
 			}
 			if( *format == 'c' ) {
-    1668:	92030000 	lbu	v1,0(s0)
-    166c:	24020063 	li	v0,99
-    1670:	1462001c 	bne	v1,v0,16e4 <print+0x35c>
-    1674:	00000000 	nop
+    1a4c:	92030000 	lbu	v1,0(s0)
+    1a50:	24020063 	li	v0,99
+    1a54:	1462001c 	bne	v1,v0,1ac8 <print+0x35c>
+    1a58:	00000000 	nop
 				/* char are converted to int then pushed on the stack */
 				scr[0] = *varg++;
-    1678:	8fc20044 	lw	v0,68(s8)
-    167c:	00000000 	nop
-    1680:	24430004 	addiu	v1,v0,4
-    1684:	afc30044 	sw	v1,68(s8)
-    1688:	8c420000 	lw	v0,0(v0)
-    168c:	00000000 	nop
-    1690:	304200ff 	andi	v0,v0,0xff
-    1694:	a3c20020 	sb	v0,32(s8)
+    1a5c:	8fc20044 	lw	v0,68(s8)
+    1a60:	00000000 	nop
+    1a64:	24430004 	addiu	v1,v0,4
+    1a68:	afc30044 	sw	v1,68(s8)
+    1a6c:	8c420000 	lw	v0,0(v0)
+    1a70:	00000000 	nop
+    1a74:	304200ff 	andi	v0,v0,0xff
+    1a78:	a3c20020 	sb	v0,32(s8)
 				scr[1] = '\0';
-    1698:	a3c00021 	sb	zero,33(s8)
+    1a7c:	a3c00021 	sb	zero,33(s8)
 				pc += prints (out, scr, width, pad);
-    169c:	02603825 	move	a3,s3
-    16a0:	02403025 	move	a2,s2
-    16a4:	27c20020 	addiu	v0,s8,32
-    16a8:	00402825 	move	a1,v0
-    16ac:	8fc40040 	lw	a0,64(s8)
-    16b0:	0c0003fb 	jal	fec <prints>
-    16b4:	00000000 	nop
-    16b8:	02228821 	addu	s1,s1,v0
+    1a80:	02603825 	move	a3,s3
+    1a84:	02403025 	move	a2,s2
+    1a88:	27c20020 	addiu	v0,s8,32
+    1a8c:	00402825 	move	a1,v0
+    1a90:	8fc40040 	lw	a0,64(s8)
+    1a94:	0c0004f4 	jal	13d0 <prints>
+    1a98:	00000000 	nop
+    1a9c:	02228821 	addu	s1,s1,v0
 				continue;
-    16bc:	10000009 	b	16e4 <print+0x35c>
-    16c0:	00000000 	nop
+    1aa0:	10000009 	b	1ac8 <print+0x35c>
+    1aa4:	00000000 	nop
 			width = pad = 0;
 			if (*format == '\0') {
 				break;
 			}
 			if (*format == '%') {
 				goto out;
-    16c4:	00000000 	nop
+    1aa8:	00000000 	nop
 				pc += prints (out, scr, width, pad);
 				continue;
 			}
 		} else {
 out:
 			printchar (out, *format);
-    16c8:	92020000 	lbu	v0,0(s0)
-    16cc:	00000000 	nop
-    16d0:	00402825 	move	a1,v0
-    16d4:	8fc40040 	lw	a0,64(s8)
-    16d8:	0c0003d6 	jal	f58 <printchar>
-    16dc:	00000000 	nop
+    1aac:	92020000 	lbu	v0,0(s0)
+    1ab0:	00000000 	nop
+    1ab4:	00402825 	move	a1,v0
+    1ab8:	8fc40040 	lw	a0,64(s8)
+    1abc:	0c0004cf 	jal	133c <printchar>
+    1ac0:	00000000 	nop
 			++pc;
-    16e0:	26310001 	addiu	s1,s1,1
+    1ac4:	26310001 	addiu	s1,s1,1
 	register int width, pad;
 	register int pc = 0;
 	register char *format = (char *)(*varg++);
 	char scr[2];
 
 	for (; *format != 0; ++format) {
-    16e4:	26100001 	addiu	s0,s0,1
-    16e8:	92020000 	lbu	v0,0(s0)
-    16ec:	00000000 	nop
-    16f0:	1440ff39 	bnez	v0,13d8 <print+0x50>
-    16f4:	00000000 	nop
-    16f8:	10000002 	b	1704 <print+0x37c>
-    16fc:	00000000 	nop
+    1ac8:	26100001 	addiu	s0,s0,1
+    1acc:	92020000 	lbu	v0,0(s0)
+    1ad0:	00000000 	nop
+    1ad4:	1440ff39 	bnez	v0,17bc <print+0x50>
+    1ad8:	00000000 	nop
+    1adc:	10000002 	b	1ae8 <print+0x37c>
+    1ae0:	00000000 	nop
 		if (*format == '%') {
 			++format;
 			width = pad = 0;
 			if (*format == '\0') {
 				break;
-    1700:	00000000 	nop
+    1ae4:	00000000 	nop
 out:
 			printchar (out, *format);
 			++pc;
 		}
 	}
 	if (out) {
-    1704:	8fc20040 	lw	v0,64(s8)
-    1708:	00000000 	nop
-    170c:	10400006 	beqz	v0,1728 <print+0x3a0>
-    1710:	00000000 	nop
+    1ae8:	8fc20040 	lw	v0,64(s8)
+    1aec:	00000000 	nop
+    1af0:	10400006 	beqz	v0,1b0c <print+0x3a0>
+    1af4:	00000000 	nop
 		**out = '\0';
-    1714:	8fc20040 	lw	v0,64(s8)
-    1718:	00000000 	nop
-    171c:	8c420000 	lw	v0,0(v0)
-    1720:	00000000 	nop
-    1724:	a0400000 	sb	zero,0(v0)
+    1af8:	8fc20040 	lw	v0,64(s8)
+    1afc:	00000000 	nop
+    1b00:	8c420000 	lw	v0,0(v0)
+    1b04:	00000000 	nop
+    1b08:	a0400000 	sb	zero,0(v0)
 	}
 	return pc;
-    1728:	02201025 	move	v0,s1
+    1b0c:	02201025 	move	v0,s1
 }
-    172c:	03c0e825 	move	sp,s8
-    1730:	8fbf003c 	lw	ra,60(sp)
-    1734:	8fbe0038 	lw	s8,56(sp)
-    1738:	8fb30034 	lw	s3,52(sp)
-    173c:	8fb20030 	lw	s2,48(sp)
-    1740:	8fb1002c 	lw	s1,44(sp)
-    1744:	8fb00028 	lw	s0,40(sp)
-    1748:	27bd0040 	addiu	sp,sp,64
-    174c:	03e00008 	jr	ra
-    1750:	00000000 	nop
+    1b10:	03c0e825 	move	sp,s8
+    1b14:	8fbf003c 	lw	ra,60(sp)
+    1b18:	8fbe0038 	lw	s8,56(sp)
+    1b1c:	8fb30034 	lw	s3,52(sp)
+    1b20:	8fb20030 	lw	s2,48(sp)
+    1b24:	8fb1002c 	lw	s1,44(sp)
+    1b28:	8fb00028 	lw	s0,40(sp)
+    1b2c:	27bd0040 	addiu	sp,sp,64
+    1b30:	03e00008 	jr	ra
+    1b34:	00000000 	nop
 
-00001754 <printf>:
+00001b38 <printf>:
 
 /* assuming sizeof(void *) == sizeof(int) */
 
 int printf(const char *format, ...)
 {
-    1754:	27bdffe8 	addiu	sp,sp,-24
-    1758:	afbf0014 	sw	ra,20(sp)
-    175c:	afbe0010 	sw	s8,16(sp)
-    1760:	03a0f025 	move	s8,sp
-    1764:	afc40018 	sw	a0,24(s8)
-    1768:	afc5001c 	sw	a1,28(s8)
-    176c:	afc60020 	sw	a2,32(s8)
-    1770:	afc70024 	sw	a3,36(s8)
+    1b38:	27bdffe8 	addiu	sp,sp,-24
+    1b3c:	afbf0014 	sw	ra,20(sp)
+    1b40:	afbe0010 	sw	s8,16(sp)
+    1b44:	03a0f025 	move	s8,sp
+    1b48:	afc40018 	sw	a0,24(s8)
+    1b4c:	afc5001c 	sw	a1,28(s8)
+    1b50:	afc60020 	sw	a2,32(s8)
+    1b54:	afc70024 	sw	a3,36(s8)
 	register int *varg = (int *)(&format);
-    1774:	27df0018 	addiu	ra,s8,24
+    1b58:	27df0018 	addiu	ra,s8,24
 	return print(0, varg);
-    1778:	03e02825 	move	a1,ra
-    177c:	00002025 	move	a0,zero
-    1780:	0c0004e2 	jal	1388 <print>
-    1784:	00000000 	nop
+    1b5c:	03e02825 	move	a1,ra
+    1b60:	00002025 	move	a0,zero
+    1b64:	0c0005db 	jal	176c <print>
+    1b68:	00000000 	nop
 }
-    1788:	03c0e825 	move	sp,s8
-    178c:	8fbf0014 	lw	ra,20(sp)
-    1790:	8fbe0010 	lw	s8,16(sp)
-    1794:	27bd0018 	addiu	sp,sp,24
-    1798:	03e00008 	jr	ra
-    179c:	00000000 	nop
+    1b6c:	03c0e825 	move	sp,s8
+    1b70:	8fbf0014 	lw	ra,20(sp)
+    1b74:	8fbe0010 	lw	s8,16(sp)
+    1b78:	27bd0018 	addiu	sp,sp,24
+    1b7c:	03e00008 	jr	ra
+    1b80:	00000000 	nop
 
-000017a0 <sprintf>:
+00001b84 <sprintf>:
 
 int sprintf(char *out, const char *format, ...)
 {
-    17a0:	27bdffe8 	addiu	sp,sp,-24
-    17a4:	afbf0014 	sw	ra,20(sp)
-    17a8:	afbe0010 	sw	s8,16(sp)
-    17ac:	03a0f025 	move	s8,sp
-    17b0:	afc40018 	sw	a0,24(s8)
-    17b4:	afc5001c 	sw	a1,28(s8)
-    17b8:	afc60020 	sw	a2,32(s8)
-    17bc:	afc70024 	sw	a3,36(s8)
+    1b84:	27bdffe8 	addiu	sp,sp,-24
+    1b88:	afbf0014 	sw	ra,20(sp)
+    1b8c:	afbe0010 	sw	s8,16(sp)
+    1b90:	03a0f025 	move	s8,sp
+    1b94:	afc40018 	sw	a0,24(s8)
+    1b98:	afc5001c 	sw	a1,28(s8)
+    1b9c:	afc60020 	sw	a2,32(s8)
+    1ba0:	afc70024 	sw	a3,36(s8)
 	register int *varg = (int *)(&format);
-    17c0:	27df001c 	addiu	ra,s8,28
+    1ba4:	27df001c 	addiu	ra,s8,28
 	return print(&out, varg);
-    17c4:	03e02825 	move	a1,ra
-    17c8:	27c40018 	addiu	a0,s8,24
-    17cc:	0c0004e2 	jal	1388 <print>
-    17d0:	00000000 	nop
+    1ba8:	03e02825 	move	a1,ra
+    1bac:	27c40018 	addiu	a0,s8,24
+    1bb0:	0c0005db 	jal	176c <print>
+    1bb4:	00000000 	nop
 }
-    17d4:	03c0e825 	move	sp,s8
-    17d8:	8fbf0014 	lw	ra,20(sp)
-    17dc:	8fbe0010 	lw	s8,16(sp)
-    17e0:	27bd0018 	addiu	sp,sp,24
-    17e4:	03e00008 	jr	ra
-    17e8:	00000000 	nop
+    1bb8:	03c0e825 	move	sp,s8
+    1bbc:	8fbf0014 	lw	ra,20(sp)
+    1bc0:	8fbe0010 	lw	s8,16(sp)
+    1bc4:	27bd0018 	addiu	sp,sp,24
+    1bc8:	03e00008 	jr	ra
+    1bcc:	00000000 	nop
 
-000017ec <UART_Init>:
+00001bd0 <UART_Init>:
 char_fifo_t tx_fifo;
 char_fifo_t rx_fifo;
 static unsigned uart_baseaddr;
 
 void UART_Init(uint32_t baseaddr, uint32_t baudrate, uint32_t bits, parity_t parity, stoppbits_t stoppbits)
 {
-    17ec:	27bdffe8 	addiu	sp,sp,-24
-    17f0:	afbf0014 	sw	ra,20(sp)
-    17f4:	afbe0010 	sw	s8,16(sp)
-    17f8:	03a0f025 	move	s8,sp
-    17fc:	afc40018 	sw	a0,24(s8)
-    1800:	afc5001c 	sw	a1,28(s8)
-    1804:	afc60020 	sw	a2,32(s8)
-    1808:	afc70024 	sw	a3,36(s8)
+    1bd0:	27bdffe8 	addiu	sp,sp,-24
+    1bd4:	afbf0014 	sw	ra,20(sp)
+    1bd8:	afbe0010 	sw	s8,16(sp)
+    1bdc:	03a0f025 	move	s8,sp
+    1be0:	afc40018 	sw	a0,24(s8)
+    1be4:	afc5001c 	sw	a1,28(s8)
+    1be8:	afc60020 	sw	a2,32(s8)
+    1bec:	afc70024 	sw	a3,36(s8)
 	uart_baseaddr = baseaddr;
-    180c:	8fc20018 	lw	v0,24(s8)
-    1810:	00000000 	nop
-    1814:	af820000 	sw	v0,0(gp)
+    1bf0:	8fc20018 	lw	v0,24(s8)
+    1bf4:	00000000 	nop
+    1bf8:	af820008 	sw	v0,8(gp)
 	//char_fifo_init(&rx_fifo, rx_buffer, sizeof(rx_buffer));
 
 	// init tx fifo
 	//char_fifo_init(&tx_fifo, tx_buffer, sizeof(tx_buffer));
 
 	out32(uart_baseaddr + UART_CR, UART_RX_IRQ | (stoppbits << 22) | (parity << 20) | ((bits - 1) << 16) | (SYSTEM_FREQUENCY / baudrate - 1));
-    1818:	8f820000 	lw	v0,0(gp)
-    181c:	00000000 	nop
-    1820:	24460008 	addiu	a2,v0,8
-    1824:	8fc20028 	lw	v0,40(s8)
-    1828:	00000000 	nop
-    182c:	00021d80 	sll	v1,v0,0x16
-    1830:	8fc20024 	lw	v0,36(s8)
-    1834:	00000000 	nop
-    1838:	00021500 	sll	v0,v0,0x14
-    183c:	00621825 	or	v1,v1,v0
-    1840:	8fc20020 	lw	v0,32(s8)
-    1844:	00000000 	nop
-    1848:	2442ffff 	addiu	v0,v0,-1
-    184c:	00021400 	sll	v0,v0,0x10
-    1850:	00621825 	or	v1,v1,v0
-    1854:	3c0202fa 	lui	v0,0x2fa
-    1858:	3444f080 	ori	a0,v0,0xf080
-    185c:	8fc2001c 	lw	v0,28(s8)
-    1860:	00000000 	nop
-    1864:	0082001b 	divu	zero,a0,v0
-    1868:	00001010 	mfhi	v0
-    186c:	00001012 	mflo	v0
-    1870:	2442ffff 	addiu	v0,v0,-1
-    1874:	00621825 	or	v1,v1,v0
-    1878:	3c020100 	lui	v0,0x100
-    187c:	00621025 	or	v0,v1,v0
-    1880:	00402825 	move	a1,v0
-    1884:	00c02025 	move	a0,a2
-    1888:	0c00012b 	jal	4ac <out32>
-    188c:	00000000 	nop
+    1bfc:	8f820008 	lw	v0,8(gp)
+    1c00:	00000000 	nop
+    1c04:	24460008 	addiu	a2,v0,8
+    1c08:	8fc20028 	lw	v0,40(s8)
+    1c0c:	00000000 	nop
+    1c10:	00021d80 	sll	v1,v0,0x16
+    1c14:	8fc20024 	lw	v0,36(s8)
+    1c18:	00000000 	nop
+    1c1c:	00021500 	sll	v0,v0,0x14
+    1c20:	00621825 	or	v1,v1,v0
+    1c24:	8fc20020 	lw	v0,32(s8)
+    1c28:	00000000 	nop
+    1c2c:	2442ffff 	addiu	v0,v0,-1
+    1c30:	00021400 	sll	v0,v0,0x10
+    1c34:	00621825 	or	v1,v1,v0
+    1c38:	3c0202fa 	lui	v0,0x2fa
+    1c3c:	3444f080 	ori	a0,v0,0xf080
+    1c40:	8fc2001c 	lw	v0,28(s8)
+    1c44:	00000000 	nop
+    1c48:	0082001b 	divu	zero,a0,v0
+    1c4c:	00001010 	mfhi	v0
+    1c50:	00001012 	mflo	v0
+    1c54:	2442ffff 	addiu	v0,v0,-1
+    1c58:	00621825 	or	v1,v1,v0
+    1c5c:	3c020100 	lui	v0,0x100
+    1c60:	00621025 	or	v0,v1,v0
+    1c64:	00402825 	move	a1,v0
+    1c68:	00c02025 	move	a0,a2
+    1c6c:	0c00012b 	jal	4ac <out32>
+    1c70:	00000000 	nop
 
 	// enable interrupt for UART
 	//cpu_enable_interrupt(UART_INTR);
 }
-    1890:	00000000 	nop
-    1894:	03c0e825 	move	sp,s8
-    1898:	8fbf0014 	lw	ra,20(sp)
-    189c:	8fbe0010 	lw	s8,16(sp)
-    18a0:	27bd0018 	addiu	sp,sp,24
-    18a4:	03e00008 	jr	ra
-    18a8:	00000000 	nop
+    1c74:	00000000 	nop
+    1c78:	03c0e825 	move	sp,s8
+    1c7c:	8fbf0014 	lw	ra,20(sp)
+    1c80:	8fbe0010 	lw	s8,16(sp)
+    1c84:	27bd0018 	addiu	sp,sp,24
+    1c88:	03e00008 	jr	ra
+    1c8c:	00000000 	nop
 
-000018ac <inbyte>:
+00001c90 <inbyte>:
 }
 */
 
 // Low level function to read a byte from console
 int inbyte()
 {
-    18ac:	27bdffe0 	addiu	sp,sp,-32
-    18b0:	afbf001c 	sw	ra,28(sp)
-    18b4:	afbe0018 	sw	s8,24(sp)
-    18b8:	03a0f025 	move	s8,sp
+    1c90:	27bdffe0 	addiu	sp,sp,-32
+    1c94:	afbf001c 	sw	ra,28(sp)
+    1c98:	afbe0018 	sw	s8,24(sp)
+    1c9c:	03a0f025 	move	s8,sp
 	char ch;
 	// pop from rx_fifo
 	if (-1 == char_fifo_pop(&rx_fifo, &ch)) {
-    18bc:	27c20010 	addiu	v0,s8,16
-    18c0:	00402825 	move	a1,v0
-    18c4:	3c020000 	lui	v0,0x0
-    18c8:	24444244 	addiu	a0,v0,16964
-    18cc:	0c0000d5 	jal	354 <char_fifo_pop>
-    18d0:	00000000 	nop
-    18d4:	00401825 	move	v1,v0
-    18d8:	2402ffff 	li	v0,-1
-    18dc:	14620004 	bne	v1,v0,18f0 <inbyte+0x44>
-    18e0:	00000000 	nop
+    1ca0:	27c20010 	addiu	v0,s8,16
+    1ca4:	00402825 	move	a1,v0
+    1ca8:	3c020000 	lui	v0,0x0
+    1cac:	2444400c 	addiu	a0,v0,16396
+    1cb0:	0c0000d5 	jal	354 <char_fifo_pop>
+    1cb4:	00000000 	nop
+    1cb8:	00401825 	move	v1,v0
+    1cbc:	2402ffff 	li	v0,-1
+    1cc0:	14620004 	bne	v1,v0,1cd4 <inbyte+0x44>
+    1cc4:	00000000 	nop
 		return -1;
-    18e4:	2402ffff 	li	v0,-1
-    18e8:	10000002 	b	18f4 <inbyte+0x48>
-    18ec:	00000000 	nop
+    1cc8:	2402ffff 	li	v0,-1
+    1ccc:	10000002 	b	1cd8 <inbyte+0x48>
+    1cd0:	00000000 	nop
 	} else                                   {
 		return ch;
-    18f0:	93c20010 	lbu	v0,16(s8)
+    1cd4:	93c20010 	lbu	v0,16(s8)
 	}
 }
-    18f4:	03c0e825 	move	sp,s8
-    18f8:	8fbf001c 	lw	ra,28(sp)
-    18fc:	8fbe0018 	lw	s8,24(sp)
-    1900:	27bd0020 	addiu	sp,sp,32
-    1904:	03e00008 	jr	ra
-    1908:	00000000 	nop
+    1cd8:	03c0e825 	move	sp,s8
+    1cdc:	8fbf001c 	lw	ra,28(sp)
+    1ce0:	8fbe0018 	lw	s8,24(sp)
+    1ce4:	27bd0020 	addiu	sp,sp,32
+    1ce8:	03e00008 	jr	ra
+    1cec:	00000000 	nop
 
-0000190c <outbyte>:
+00001cf0 <outbyte>:
 
 // Low level function to write a byte to console
 void outbyte(int c)
 {
-    190c:	27bdffe0 	addiu	sp,sp,-32
-    1910:	afbf001c 	sw	ra,28(sp)
-    1914:	afbe0018 	sw	s8,24(sp)
-    1918:	afb00014 	sw	s0,20(sp)
-    191c:	03a0f025 	move	s8,sp
-    1920:	afc40020 	sw	a0,32(s8)
+    1cf0:	27bdffe0 	addiu	sp,sp,-32
+    1cf4:	afbf001c 	sw	ra,28(sp)
+    1cf8:	afbe0018 	sw	s8,24(sp)
+    1cfc:	afb00014 	sw	s0,20(sp)
+    1d00:	03a0f025 	move	s8,sp
+    1d04:	afc40020 	sw	a0,32(s8)
 	char_fifo_push(&tx_fifo, c); // push to tx_fifo
-    1924:	8fc50020 	lw	a1,32(s8)
-    1928:	3c020000 	lui	v0,0x0
-    192c:	244442a4 	addiu	a0,v0,17060
-    1930:	0c00007e 	jal	1f8 <char_fifo_push>
-    1934:	00000000 	nop
+    1d08:	8fc50020 	lw	a1,32(s8)
+    1d0c:	3c020000 	lui	v0,0x0
+    1d10:	2444406c 	addiu	a0,v0,16492
+    1d14:	0c00007e 	jal	1f8 <char_fifo_push>
+    1d18:	00000000 	nop
 
 	//enable_ir(TX_INTR);
 	// enable Tx interrupt
 	out32(uart_baseaddr + UART_CR, in32(uart_baseaddr + UART_CR) | UART_TX_IRQ);
-    1938:	8f820000 	lw	v0,0(gp)
-    193c:	00000000 	nop
-    1940:	24500008 	addiu	s0,v0,8
-    1944:	8f820000 	lw	v0,0(gp)
-    1948:	00000000 	nop
-    194c:	24420008 	addiu	v0,v0,8
-    1950:	00402025 	move	a0,v0
-    1954:	0c00013a 	jal	4e8 <in32>
-    1958:	00000000 	nop
-    195c:	00401825 	move	v1,v0
-    1960:	3c020200 	lui	v0,0x200
-    1964:	00621025 	or	v0,v1,v0
-    1968:	00402825 	move	a1,v0
-    196c:	02002025 	move	a0,s0
-    1970:	0c00012b 	jal	4ac <out32>
-    1974:	00000000 	nop
+    1d1c:	8f820008 	lw	v0,8(gp)
+    1d20:	00000000 	nop
+    1d24:	24500008 	addiu	s0,v0,8
+    1d28:	8f820008 	lw	v0,8(gp)
+    1d2c:	00000000 	nop
+    1d30:	24420008 	addiu	v0,v0,8
+    1d34:	00402025 	move	a0,v0
+    1d38:	0c00013a 	jal	4e8 <in32>
+    1d3c:	00000000 	nop
+    1d40:	00401825 	move	v1,v0
+    1d44:	3c020200 	lui	v0,0x200
+    1d48:	00621025 	or	v0,v1,v0
+    1d4c:	00402825 	move	a1,v0
+    1d50:	02002025 	move	a0,s0
+    1d54:	0c00012b 	jal	4ac <out32>
+    1d58:	00000000 	nop
 }
-    1978:	00000000 	nop
-    197c:	03c0e825 	move	sp,s8
-    1980:	8fbf001c 	lw	ra,28(sp)
-    1984:	8fbe0018 	lw	s8,24(sp)
-    1988:	8fb00014 	lw	s0,20(sp)
-    198c:	27bd0020 	addiu	sp,sp,32
-    1990:	03e00008 	jr	ra
-    1994:	00000000 	nop
+    1d5c:	00000000 	nop
+    1d60:	03c0e825 	move	sp,s8
+    1d64:	8fbf001c 	lw	ra,28(sp)
+    1d68:	8fbe0018 	lw	s8,24(sp)
+    1d6c:	8fb00014 	lw	s0,20(sp)
+    1d70:	27bd0020 	addiu	sp,sp,32
+    1d74:	03e00008 	jr	ra
+    1d78:	00000000 	nop
 
 Disassembly of section .bss:
 
@@ -2489,20 +2867,20 @@ _di:
 	jr $ra
     4000:	00000000 	nop
 
-00004004 <gesamtReceived>:
+00004004 <offset_K2.1600>:
+    4004:	00000000                                ....
+
+00004008 <uart_baseaddr>:
+    4008:	00000000                                ....
+
+0000400c <rx_fifo>:
 	...
 
-00004204 <Receiver_FIFO_1>:
+0000401c <rx_buffer>:
 	...
 
-00004244 <rx_fifo>:
+00004044 <tx_buffer>:
 	...
 
-00004254 <rx_buffer>:
-	...
-
-0000427c <tx_buffer>:
-	...
-
-000042a4 <tx_fifo>:
+0000406c <tx_fifo>:
 	...

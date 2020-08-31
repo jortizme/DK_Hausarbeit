@@ -21,9 +21,3 @@
 #define DMA_INTR        IP2_INTR
 #define DMA_Handler     IP2_Handler
 
-// Display configuration
-#define DISPLAY_BASE     0x00010000
-
-// Display configuration
-#define DISPLAY_WIDTH    80
-#define DISPLAY_HEIGHT   30

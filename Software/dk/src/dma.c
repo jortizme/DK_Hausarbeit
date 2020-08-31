@@ -1,49 +1,80 @@
+
+/*
+-------------------------------------------------------------------------------
+-- dma.c
+-------------------------------------------------------------------------------
+-- Modul Digitale Komponenten
+-- Hochschule Osnabrueck
+-- Joaquin Ortiz, Filip Mijac
+-------------------------------------------------------------------------------
+*/
+
 #include <dma.h>
 #include <config.h>
 #include <cpu.h>
 
-//  --------------------------------------
-//  DMA-System initialization
-//  Joaquin Ortiz
-//  Filip Mijac
-//  HS-Onsnabrueck
-//  ---------------------------------------
 
-
-void DMA_init(uint32_t channelNumber, uint32_t sourceAddress, uint32_t destinationAddress, uint32_t transferNumber, 
-                betriebsmodus_t betrieb, bool_t byteTransfer, bool_t IRFreigabe, bool_t exEreignisEn)
+void DMA_init(Config_Channel_Info* Channel)
 {
     uint32_t controlRegVal = 0;
 
-    controlRegVal = controlRegVal | ((exEreignisEn << 4) | (IRFreigabe << 3)  |  (byteTransfer << 2) | betrieb);
+    controlRegVal = controlRegVal | ((Channel->ExEreignisEn << 4) | (Channel->IRFreigabe << 3)  |  (Channel->ByteTransfer << 2) | Channel->Betriebsmodus);
 
-    if(CHANNEL_1 == channelNumber)
+    if(CHANNEL_0 == Channel->ChannelNumber)
     {
         //Source Address configuration
-        out32(DMA_BASE + DMA_SAR0, sourceAddress);
+        out32(DMA_BASE + DMA_SAR0, Channel->SourceAddress);
 
         //Destination Address configuration
-        out32(DMA_BASE + DMA_DESTR0, destinationAddress);
+        out32(DMA_BASE + DMA_DESTR0, Channel->DestinationAddress);
 
         //Number of transfers
-        out32(DMA_BASE + DMA_TRAAR0, transferNumber);
+        out32(DMA_BASE + DMA_TRAAR0, Channel->TransferNumber);
 
         //Control Register
         out32(DMA_BASE + DMA_CR0, controlRegVal);
     }
-    else if(CHANNEL_2 == channelNumber)
+    else if(CHANNEL_1 == Channel->ChannelNumber)
     {
         //Source Address configuration
-        out32(DMA_BASE + DMA_SAR1, sourceAddress);
+        out32(DMA_BASE + DMA_SAR1, Channel->SourceAddress);
 
         //Destination Address configuration
-        out32(DMA_BASE + DMA_DESTR1, destinationAddress);
+        out32(DMA_BASE + DMA_DESTR1, Channel->DestinationAddress);
 
         //Number of transfers
-        out32(DMA_BASE + DMA_TRAAR1, transferNumber);
+        out32(DMA_BASE + DMA_TRAAR1, Channel->TransferNumber);
 
         //Control Register
         out32(DMA_BASE + DMA_CR1, controlRegVal);
+    }
+    else if(CHANNEL_2 == Channel->ChannelNumber)
+    {
+        //Source Address configuration
+        out32(DMA_BASE + DMA_SAR2, Channel->SourceAddress);
+
+        //Destination Address configuration
+        out32(DMA_BASE + DMA_DESTR2, Channel->DestinationAddress);
+
+        //Number of transfers
+        out32(DMA_BASE + DMA_TRAAR2, Channel->TransferNumber);
+
+        //Control Register
+        out32(DMA_BASE + DMA_CR2, controlRegVal);
+    }
+    else if(CHANNEL_3 == Channel->ChannelNumber)
+    {
+        //Source Address configuration
+        out32(DMA_BASE + DMA_SAR3, Channel->SourceAddress);
+
+        //Destination Address configuration
+        out32(DMA_BASE + DMA_DESTR3, Channel->DestinationAddress);
+
+        //Number of transfers
+        out32(DMA_BASE + DMA_TRAAR3, Channel->TransferNumber);
+
+        //Control Register
+        out32(DMA_BASE + DMA_CR3, controlRegVal);
     }
 
     	// enable interrupt for DMA
@@ -51,17 +82,42 @@ void DMA_init(uint32_t channelNumber, uint32_t sourceAddress, uint32_t destinati
 }
 
 
-void ChannelEnable(uint32_t channelNumber)
+void ChannelEnable(Config_Channel_Info* Channel)
 {
-    if(CHANNEL_1 == channelNumber)
+    if(CHANNEL_0 == Channel->ChannelNumber)
     {
-        out32(DMA_BASE + DMA_CR0, in32(DMA_BASE + DMA_CR0) | CHANNEL_EN);
+        out32(DMA_BASE + DMA_CR0, Channel->ControlRegVal | CHANNEL_EN);
     }
-    else if (CHANNEL_2 == channelNumber) 
+    else if (CHANNEL_1 == Channel->ChannelNumber)
     {
-        out32(DMA_BASE + DMA_CR1, in32(DMA_BASE + DMA_CR1) | CHANNEL_EN);    
+        out32(DMA_BASE + DMA_CR1, Channel->ControlRegVal | CHANNEL_EN);
+    }
+    else if (CHANNEL_2 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR2, Channel->ControlRegVal | CHANNEL_EN);
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_EN);
     }
 }
 
-
-
+void InterruptAck(Config_Channel_Info* Channel)
+{
+    if(CHANNEL_0 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR0, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_1 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR1, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_2 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR2, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+    else if (CHANNEL_3 == Channel->ChannelNumber)
+    {
+        out32(DMA_BASE + DMA_CR3, Channel->ControlRegVal | CHANNEL_IR_ACK);
+    }
+}

@@ -48,7 +48,7 @@ C_DEPS += \
 src/%.o: ../src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross GCC Compiler'
-	mips-sde-elf-gcc -I"C:\Praktikum\Software\dk\inc" -O0 -g3 -Wall -c -fmessage-length=0 -mips1 -EL -fno-delayed-branch -mno-check-zero-division -ggdb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	mips-sde-elf-gcc -I"C:\DK_Praktikum\Software\dk\inc" -O0 -g3 -Wall -c -fmessage-length=0 -mips1 -EL -fno-delayed-branch -mno-check-zero-division -ggdb -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
