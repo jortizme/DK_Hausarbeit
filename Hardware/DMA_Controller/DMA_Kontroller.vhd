@@ -83,13 +83,13 @@ entity DMA_Kontroller is
         --Interrupts to CPU
 
         --Fuer die Synthese verwenden
-        --Kanal_Interrupt : out std_logic
+        Kanal_Interrupt : out std_logic
 
         --Fuer die Simulation verwenden
-        Kanal1_Interrupt : out std_logic;
-        Kanal2_Interrupt : out std_logic;
-        Kanal3_Interrupt : out std_logic;
-        Kanal4_Interrupt : out std_logic
+        --Kanal1_Interrupt : out std_logic;
+        --Kanal2_Interrupt : out std_logic;
+        --Kanal3_Interrupt : out std_logic;
+        --Kanal4_Interrupt : out std_logic
     );
 end entity;
 
@@ -218,13 +218,13 @@ begin
     Interrupt3_i <= FreigabeIR_3 and TRA3_Fertig;
     
     --Fuer die Sythese verwenden
-    --Kanal_Interrupt <= Interrupt0_i or Interrupt1_i or Interrupt2_i or Interrupt3_i;
+    Kanal_Interrupt <= Interrupt0_i or Interrupt1_i or Interrupt2_i or Interrupt3_i;
 
     --Fuer die Simulation verwenden
-    Kanal1_Interrupt <= Interrupt0_i;
-    Kanal2_Interrupt <= Interrupt1_i;
-    Kanal3_Interrupt <= Interrupt2_i;
-    Kanal4_Interrupt <= Interrupt3_i;
+    --Kanal1_Interrupt <= Interrupt0_i;
+    --Kanal2_Interrupt <= Interrupt1_i;
+    --Kanal3_Interrupt <= Interrupt2_i;
+    --Kanal4_Interrupt <= Interrupt3_i;
 
     -- Kontrollregister mit Steuersignalen verbinden
     BetriebMod_0    <= CR0(1 downto 0);  
